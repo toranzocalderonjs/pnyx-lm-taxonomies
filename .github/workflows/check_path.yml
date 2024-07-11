@@ -1,0 +1,39 @@
+name: Path Check
+
+on:
+  workflow_call:
+    outputs:
+      # languages
+      python:
+        description: 'indicate that a change was made on a python app or package'
+        value: ${{ jobs.check.outputs.python }}
+      # applications
+      taxonomy_analyzer:
+        description: 'indicate that a change was made on taxonomy_analyzer app or any package dependency'
+        value: ${{ jobs.check.outputs.evaluator }}
+      
+
+jobs:
+  check:
+    name: 'Path Changes'
+    runs-on: ubuntu-latest
+    # Map the job outputs to step outputs
+    outputs:
+      # languages
+      python: ${{ steps.filter.outputs.python }}
+      # applications
+      evaluator: ${{ steps.filter.outputs.evaluator }}
+      manager: ${{ steps.filter.outputs.manager }}
+      sampler: ${{ steps.filter.outputs.sampler }}
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+      - name: Check Path changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: .github/path-filter.yml
+      - name: Set outputs
+        run: |
+          echo "python=${{steps.filter.outputs.python}}" >> $GITHUB_OUTPUT
+          echo "taxonomy_analyzer=${{steps.filter.outputs.taxonomy_analyzer}}" >> $GITHUB_OUTPUT
