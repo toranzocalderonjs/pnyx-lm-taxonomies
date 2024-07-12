@@ -2,20 +2,23 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import sys
 import os
-current_dir = os.path.dirname(os.path.abspath(__file__))
-root_dir = os.path.normpath(os.path.join(current_dir, os.pardir, os.pardir, os.pardir))
-sys.path.insert(0, os.path.join(root_dir, 'packages', 'python'))
-from taxonomy_tools import helm_data as txm_helm_data
-from taxonomy_tools import utils as txm_utils
 import pandas as pd
-import os
 
 import argparse
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.normpath(os.path.join(current_dir, os.pardir, os.pardir, os.pardir))
+sys.path.insert(0, os.path.join(root_dir, "packages", "python"))
+
 
 def main():
+    from taxonomy_tools import helm_data as txm_helm_data
+    from taxonomy_tools import utils as txm_utils
+
     # Create an ArgumentParser object
-    parser = argparse.ArgumentParser(description="Program that takes two file paths")
+    parser = argparse.ArgumentParser(
+        description="Script for testing taxonomy fitness against a dataset test collection."
+    )
 
     # Add arguments for the paths
     parser.add_argument(
@@ -43,8 +46,8 @@ def main():
     OUTPUT_PATH = args.output
 
     # Get taxonomy name
-    taxonomy_name = os.path.basename(TAXONOMY_PATH).split('.')[0]
-    print('Processing taxonomy: %s'%taxonomy_name)
+    taxonomy_name = os.path.basename(TAXONOMY_PATH).split(".")[0]
+    print("Processing taxonomy: %s" % taxonomy_name)
 
     # Load taxonomy
     taxonomy_graph, labels_graph, undefined_edges, measurable_edges = (
@@ -106,8 +109,7 @@ def main():
     pd.DataFrame(correlation_matrix_filtered).to_csv(
         os.path.join(
             OUTPUT_PATH,
-            "%s" % taxonomy_name
-            + "_filtered_corrleation.csv",
+            "%s" % taxonomy_name + "_filtered_corrleation.csv",
         ),
         index=False,
         header=False,
@@ -121,8 +123,7 @@ def main():
     pd.DataFrame(correlation_matrix_imbalanced).to_csv(
         os.path.join(
             OUTPUT_PATH,
-            "%s" % taxonomy_name
-            + "_imbalanced_corrleation.csv",
+            "%s" % taxonomy_name + "_imbalanced_corrleation.csv",
         ),
         index=False,
         header=False,
@@ -162,13 +163,17 @@ def main():
         font_size=8,
     )
     plt.draw()
-    plt.savefig(os.path.join(OUTPUT_PATH, "%s" % taxonomy_name + "_dataset_assignment_graph.png"))
+    plt.savefig(
+        os.path.join(
+            OUTPUT_PATH, "%s" % taxonomy_name + "_dataset_assignment_graph.png"
+        )
+    )
 
     # mas compacta
     correlation_matrix = nodes_data_df.loc[:, (nodes_data_df != 0).any()].corr()
     # Create a heatmap for visualization
-    im=plt.matshow(correlation_matrix, cmap="coolwarm")
-    im.set_clim([-1.0,1.0]) 
+    im = plt.matshow(correlation_matrix, cmap="coolwarm")
+    im.set_clim([-1.0, 1.0])
     # Add colorbar
     plt.colorbar()
     # Set column labels
@@ -179,7 +184,12 @@ def main():
     # Set title
     plt.title("%s" % TAXONOMY_PATH.split("/")[-1])
     plt.draw()
-    plt.savefig(os.path.join(OUTPUT_PATH, "%s" % taxonomy_name + "_taxonomy_correlation_matrix.png"), bbox_inches = 'tight')
+    plt.savefig(
+        os.path.join(
+            OUTPUT_PATH, "%s" % taxonomy_name + "_taxonomy_correlation_matrix.png"
+        ),
+        bbox_inches="tight",
+    )
 
 
 # Run the main function if the script is executed directly

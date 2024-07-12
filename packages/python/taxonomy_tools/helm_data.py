@@ -268,11 +268,13 @@ def read_helm_data(
     tasks_dirs = os.listdir(helm_data_path)
 
     for dataset in datasets_list:
-
         if dataset in helm_samples_dict.keys():
-            print("Skipping dataset %s, it is already present in the provided samples dictionary.")
+            print(
+                "Skipping dataset %s, it is already present in the provided samples dictionary."
+                % dataset
+            )
             continue
-        
+
         # Get list of associated tasks
         task_list = dataset_config[dataset]
         tasks_results_dict = dict()
@@ -286,7 +288,7 @@ def read_helm_data(
             matching_results = [
                 t_dir
                 for t_dir in tasks_dirs
-                if (task["name"] in t_dir and "groups" not in t_dir)
+                if (task["name"] + "," in t_dir and "groups" not in t_dir)
             ]
             if len(matching_results) == 0:
                 if verbose:
@@ -343,3 +345,12 @@ def read_helm_data(
                     print("No data found for dataset: %s" % dataset)
 
     return helm_samples_dict
+
+
+def split_helm_result_folder_name(folder_name):
+    split_data = dict()
+    split_data["dataset"] = folder_name.split(":")[0]
+    split_data["model"] = folder_name.split(",model=")[-1].split(",")[0]
+    if "task" in folder_name:
+        split_data["task"] = folder_name.split(":task=")[-1].split(",")[0]
+    return split_data
