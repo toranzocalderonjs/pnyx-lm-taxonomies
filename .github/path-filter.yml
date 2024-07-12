@@ -1,0 +1,8 @@
+### language filters
+python:
+  - 'apps/python/**'
+  - 'packages/python/**'
+
+### application filters
+taxonomy_analyzer:
+  - 'apps/python/taxonomy_analyzer/**'

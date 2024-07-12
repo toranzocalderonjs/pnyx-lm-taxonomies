@@ -1,3 +1,5 @@
 .vscode
 .DS_store
 untracked
+__pycache__
+.venv
