@@ -1,7 +1,18 @@
 import os
 import numpy as np
-from typing import List
+from typing import List, Tuple
 import json
+from copy import deepcopy
+import warnings
+import platform
+
+# Get OS, windows has special needs
+is_windows = platform.system() == "Windows"
+
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.normpath(os.path.join(current_dir, os.pardir, os.pardir, os.pardir))
+
 
 # This structure contains the translation of the taxonomy dataset strings
 # into actual HELM dataset results.
@@ -9,244 +20,35 @@ import json
 # constituted of the same dataset, arbitrary collections can be passed. Only
 # keep in mind that the metrics should all be of the same type, since all
 # results within a dataset entry will be averaged.
-dataset_config = {
-    "LegalSupport": [
-        {
-            "name": "legal_support,method=multiple_choice_joint",  # Partial string of the result name, all the characters before ",model=..."
-            "metric": "exact_match",  # Type of metric to look for in the "stats.json" file. The first match is the one used.
-            "field": "mean",  # Field of the metric to keep, usually mean.
-            "split": "test",  # Split of the metric, some dataset have "test" split, other only have "validation"
-        }
-    ],
-    "Synthetic_reasoning_(natural_language)": [
-        {
-            "name": "synthetic_reasoning_natural:difficulty=hard",
-            "metric": "f1_set_match",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "synthetic_reasoning_natural:difficulty=easy",
-            "metric": "f1_set_match",
-            "field": "mean",
-            "split": "test",
-        },
-    ],
-    "Synthetic_reasoning_(abstract_symbols)---pattern_match": [
-        {
-            "name": "synthetic_reasoning:mode=pattern_match",
-            "metric": "quasi_exact_match",
-            "field": "mean",
-            "split": "test",
-        }
-    ],
-    "Synthetic_reasoning_(abstract_symbols)---variable_sustitution": [
-        {
-            "name": "synthetic_reasoning:mode=variable_substitution",
-            "metric": "quasi_exact_match",
-            "field": "mean",
-            "split": "test",
-        }
-    ],
-    "Synthetic_reasoning_(abstract_symbols)---induction": [
-        {
-            "name": "synthetic_reasoning:mode=induction",
-            "metric": "quasi_exact_match",
-            "field": "mean",
-            "split": "test",
-        }
-    ],
-    "bAbI": [
-        {
-            "name": "babi_qa:task=all",
-            "metric": "quasi_exact_match",
-            "field": "mean",
-            "split": "test",
-        }
-    ],
-    "LSAT": [
-        {
-            "name": "lsat_qa:task=all",
-            "metric": "quasi_exact_match",
-            "field": "mean",
-            "split": "test",
-        }
-    ],
-    "HellaSwag": [
-        {
-            "name": "commonsense:dataset=hellaswag",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "valid",
-        }
-    ],
-    "OpenBookQA": [
-        {
-            "name": "commonsense:dataset=openbookqa",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "test",
-        }
-    ],
-    "MMLU": [
-        {
-            "name": "mmlu:subject=abstract_algebra",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "valid",
-        },
-        {
-            "name": "mmlu:subject=college_chemistry",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "valid",
-        },
-        {
-            "name": "mmlu:subject=computer_security",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "valid",
-        },
-        {
-            "name": "mmlu:subject=econometrics",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "valid",
-        },
-        {
-            "name": "mmlu:subject=us_foreign_policy",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "valid",
-        },
-    ],
-    "WikiText-103": [
-        {
-            "name": "IGNORE-ME",
-        }
-    ],
-    "The Pile": [
-        {
-            "name": "the_pile:subset=ArXiv",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "the_pile:subset=BookCorpus2",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "the_pile:subset=Enron Emails",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "the_pile:subset=Github",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "the_pile:subset=PubMed Central",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "the_pile:subset=Wikipedia (en)",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-    ],
-    "TwitterAAE": [
-        {
-            "name": "twitter_aae:demographic=white",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "twitter_aae:demographic=aa",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-    ],
-    "ICE": [
-        {
-            "name": "ice:gender=female",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "ice:gender=male",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "ice:subset=ea",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "ice:subset=hk",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "ice:subset=ind",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "ice:subset=usa",
-            "metric": "bits_per_byte",
-            "field": "mean",
-            "split": "test",
-        },
-    ],
-    "WikiData": [
-        {
-            "name": "IGNORE-ME",
-        }
-    ],
-    "BLiMP": [
-        {
-            "name": "blimp:phenomenon=binding,method=multiple_choice_separate_original",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "blimp:phenomenon=irregular_forms,method=multiple_choice_separate_original",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "blimp:phenomenon=island_effects,method=multiple_choice_separate_original",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "test",
-        },
-        {
-            "name": "blimp:phenomenon=quantifiers,method=multiple_choice_separate_original",
-            "metric": "exact_match",
-            "field": "mean",
-            "split": "test",
-        },
-    ],
-}
+#
+# Here is an example entry:
+#  "LegalSupport": [
+#         {
+#             "name": "legal_support,method=multiple_choice_joint",  // Partial string of the result name, all the characters before ",model=..."
+#             "metric": "exact_match",  // Type of metric to look for in the "stats.json" file. The first match is the one used.
+#             "suffix": "", // Optional field to include for tests that include more partitions after the model name, use "---" to signal strict no suffix and "" for any suffix (without warnings)
+#             "field": "mean",  // Field of the metric to keep, usually mean.
+#             "split": "test",  // Split of the metric, some dataset have "test" split, other only have "validation"
+#         }
+#     ],
+#
+# The data will be read upon importing from the default path or the path indicated in an environment variable
+helm_tests_config_path = os.environ.get(
+    "HELM_TESTS_CONFIG_PATH", os.path.join(root_dir, "config", "helm_tests.json")
+)
+with open(helm_tests_config_path) as f:
+    dataset_config = json.load(f)
+
+# This config file contains data for each of the models that HELM tested (and potentially more)
+models_config_path = os.environ.get(
+    "MODELS_CONFIG_PATH", os.path.join(root_dir, "config", "models.json")
+)
+with open(models_config_path) as f:
+    models_config = json.load(f)
+
+
+def get_model_name_from_test_name(test_name):
+    return test_name.split("model=")[-1].split(",")[0]
 
 
 def read_helm_data(
@@ -254,6 +56,7 @@ def read_helm_data(
     datasets_list: List[str],
     verbose: bool = False,
     current_dict: dict = {},
+    parameters_range: Tuple[float, float] = [0, 0],
 ) -> dict:
     """
     Given a dataset list from a taxonomy, loads all metrics from the HELM
@@ -285,21 +88,80 @@ def read_helm_data(
                 ignored = True
                 continue
             # Get all results matching this task
-            matching_results = [
-                t_dir
-                for t_dir in tasks_dirs
-                if (task["name"] + "," in t_dir and "groups" not in t_dir)
-            ]
+            matching_results = list()
+            for t_dir in tasks_dirs:
+                task_name = task["name"]
+                if is_windows:
+                    # replace the ":" with "-" in the test name
+                    task_name = task_name.replace(":", "-")
+                if task_name in t_dir:
+                    # Check for suffix
+                    suffixs = ""
+                    for s in t_dir.split("model=")[-1].split(",")[1:]:
+                        suffixs += "," + s
+                    if len(suffixs) > 0:
+                        if task.get("suffix", None) is not None:
+                            if task["suffix"] in suffixs:
+                                matching_results.append(t_dir)
+                        else:
+                            if verbose:
+                                warnings.warn(
+                                    "adding test with non-specified suffix, this can result into errors: %s"
+                                    % t_dir
+                                )
+                                matching_results.append(t_dir)
+                    elif task.get("suffix", None) is not None:
+                        if task["suffix"] == "---":
+                            # We are not requesting one either way, so add
+                            matching_results.append(t_dir)
+                        else:
+                            # This task does not have a suffix but you requested one, ignore
+                            continue
+                    else:
+                        # No suffix, no problem
+                        matching_results.append(t_dir)
             if len(matching_results) == 0:
                 if verbose:
                     print("task not found : %s" % task["name"])
 
             # Get the tested models names
             tested_models = [
-                result_name.split("model=")[-1].split(",")[0]
+                get_model_name_from_test_name(result_name)
                 for result_name in matching_results
             ]
-            assert len(tested_models) == len(np.unique(tested_models))
+            assert len(tested_models) == len(np.unique(tested_models)), (
+                "(%s) Got %d unique models in a list of %d models."
+                % (task["name"], len(np.unique(tested_models)), len(tested_models))
+            )
+
+            # Filter model sizes if requested
+            if np.sum(parameters_range) > 0:
+                # Sanity check of parameter range
+                assert len(parameters_range) == 2
+                assert parameters_range[0] < parameters_range[1]
+                # Loop over all models found
+                tested_models_use = list()
+                for model in tested_models:
+                    # Get model config
+                    this_cfg = models_config.get(model, None)
+                    if this_cfg is None:
+                        raise ValueError(
+                            "Cannot find config data for model %s in config file %s"
+                            % (model, models_config)
+                        )
+                    # Check if within the given parameter and append
+                    if (this_cfg["parameters"] > parameters_range[0]) and (
+                        this_cfg["parameters"] <= parameters_range[1]
+                    ):
+                        tested_models_use.append(model)
+                if len(tested_models_use) == 0:
+                    if verbose:
+                        print(
+                            "(Task : %s) No models found with the selected parameter range: [%g , %g]"
+                            % (task["name"], parameters_range[0], parameters_range[1])
+                        )
+                # Replace list
+                tested_models = deepcopy(tested_models_use)
 
             # Get the metrics for each model
             for this_result, this_model in zip(matching_results, tested_models):

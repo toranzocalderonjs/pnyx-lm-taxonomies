@@ -7,16 +7,31 @@ This folder contains a series of scripts that are used to analyze taxonomies.
 This script is used to analyze a given taxonomy. The inputs are:
 - A taxonomy file in `digraph` format.
 - A set of metrics from multiple LMs on multiple datasets.
+- (Optional) A list of metrics to test separated by commas (defaults to "kendall,mutual_informatio").
 
 Example execution:
 ```bash
-python taxonomy_analyzer/test_taxonomy.py --taxonomy /bar/foo/taxonomy_001.txt --data /bar/foo/helm/benchmark_output/runs/v0.3.0 --output /bar/foo/outputs
+python taxonomy_analyzer/test_taxonomy.py --taxonomy /bar/foo/taxonomy_001.txt --data /bar/foo/helm/benchmark_output/runs/v0.3.0 --output /bar/foo/outputs --metrics kendall,mutual_information 
 ```
 
 Note that the argument `--data` can be repeated multiple times to look for results in multiple folders, like this
 ```bash
 ...  --data /bar/foo/helm/benchmark_output/runs/v0.3.0  --data /bar/foo/custom_datasets ... 
 ```
+
+The output is are a series of files, all starting with the taxonomy name:
+- `taxonomy_xxx_taxonomy_graph.png` : A graph of the tested taxonomy.
+- `taxonomy_xxx_dataset_assignment_graph.png` : An image of the assignation of datasets to the nodes in the taxonomy.
+- `taxonomy_xxx_dataset_metrics.csv` : The scores of the models tested in each of the selected datasets.
+- `taxonomy_xxx_nodes_metrics.csv` : The scores of the models tested in each of the taxonomy nodes.
+- `taxonomy_xxx_filtered_metric_yyyy.csv` : The values of the filtered (no NaNs) metric application on each node.
+- `taxonomy_xxx_full_metric_yyyy.csv` : The values of the raw metric application on each node.
+- `taxonomy_xxx_imbalanced_metric_yyyy.csv` : The values of the metric application on each node, where each node is evaluated with all the models that they share (other metrics only keep models that are tested on all selected datasets).
+- `taxonomy_xxx_metric_dict.json` : A json file that mimics the taxonomy structure and includes all the calculated metrics.
+- `taxonomy_xxx_metric_yyyy_matrix.png` : A heat map of the metric values calculated on all nodes against all other nodes.
+
+
+
 
 ### Dataset Compilation (`compile_custom_dataset.py`)
 

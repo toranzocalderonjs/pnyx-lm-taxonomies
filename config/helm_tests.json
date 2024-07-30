@@ -1,0 +1,266 @@
+{
+    "LegalSupport": [
+        {
+            "name": "legal_support,method=multiple_choice_joint", 
+            "suffix" : "---",
+            "metric": "exact_match", 
+            "field": "mean", 
+            "split": "test"
+        }
+    ],
+    "Synthetic_reasoning_(natural_language)": [
+        {
+            "name": "synthetic_reasoning_natural:difficulty=hard",
+            "suffix" : "---",
+            "metric": "f1_set_match",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "synthetic_reasoning_natural:difficulty=easy",
+            "metric": "f1_set_match",
+            "suffix" : "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "Synthetic_reasoning_(abstract_symbols)---pattern_match": [
+        {
+            "name": "synthetic_reasoning:mode=pattern_match",
+            "suffix" : "---",
+            "metric": "quasi_exact_match",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "Synthetic_reasoning_(abstract_symbols)---variable_sustitution": [
+        {
+            "name": "synthetic_reasoning:mode=variable_substitution",
+            "suffix" : "---",
+            "metric": "quasi_exact_match",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "Synthetic_reasoning_(abstract_symbols)---induction": [
+        {
+            "name": "synthetic_reasoning:mode=induction",
+            "suffix" : "---",
+            "metric": "quasi_exact_match",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "bAbI": [
+        {
+            "name": "babi_qa:task=all",
+            "metric": "quasi_exact_match",
+            "suffix" : "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "LSAT": [
+        {
+            "name": "lsat_qa:task=all",
+            "metric": "quasi_exact_match",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "HellaSwag": [
+        {
+            "name": "commonsense:dataset=hellaswag",
+            "suffix": "data_augmentation=canonical",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "valid"
+        }
+    ],
+    "OpenBookQA": [
+        {
+            "name": "commonsense:dataset=openbookqa",
+            "suffix": "data_augmentation=canonical",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "MMLU": [
+        {
+            "name": "mmlu:subject=abstract_algebra",
+            "suffix": "data_augmentation=canonical",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "valid"
+        },
+        {
+            "name": "mmlu:subject=college_chemistry",
+            "suffix": "data_augmentation=canonical",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "valid"
+        },
+        {
+            "name": "mmlu:subject=computer_security",
+            "suffix": "data_augmentation=canonical",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "valid"
+        },
+        {
+            "name": "mmlu:subject=econometrics",
+            "suffix": "data_augmentation=canonical",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "valid"
+        },
+        {
+            "name": "mmlu:subject=us_foreign_policy",
+            "suffix": "data_augmentation=canonical",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "valid"
+        }
+    ],
+    "WikiText-103": [
+        {
+            "name": "IGNORE-ME"
+        }
+    ],
+    "The Pile": [
+        {
+            "name": "the_pile:subset=ArXiv",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "the_pile:subset=BookCorpus2",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "the_pile:subset=Enron Emails",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "the_pile:subset=Github",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "the_pile:subset=PubMed Central",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "the_pile:subset=Wikipedia (en)",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "TwitterAAE": [
+        {
+            "name": "twitter_aae:demographic=white",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "twitter_aae:demographic=aa",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "ICE": [
+        {
+            "name": "ice:gender=female",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "ice:gender=male",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "ice:subset=ea",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "ice:subset=hk",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "ice:subset=ind",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "ice:subset=usa",
+            "metric": "bits_per_byte",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "WikiData": [
+        {
+            "name": "IGNORE-ME"
+        }
+    ],
+    "BLiMP": [
+        {
+            "name": "blimp:phenomenon=binding,method=multiple_choice_separate_original",
+            "suffix": "---",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "blimp:phenomenon=irregular_forms,method=multiple_choice_separate_original",
+            "suffix": "---",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "blimp:phenomenon=island_effects,method=multiple_choice_separate_original",
+            "suffix": "---",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "blimp:phenomenon=quantifiers,method=multiple_choice_separate_original",
+            "suffix": "---",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "truthful_qa": [
+        {
+            "name": "truthful_qa:task=mc_single,method=multiple_choice_joint",
+            "suffix" : "data_augmentation=canonical",
+            "metric": "exact_match",
+            "field": "mean",
+            "split": "valid"
+        }
+    ]
+}

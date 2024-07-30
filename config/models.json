@@ -1,0 +1,282 @@
+{
+ "AlephAlpha_luminous-base" : {
+    "parameters" : 13e9,
+    "creator" : "AlephAlpha"
+},
+ "AlephAlpha_luminous-extended" : {
+    "parameters" : 30e9,
+    "creator" : "AlephAlpha"
+},
+ "AlephAlpha_luminous-supreme" : {
+    "parameters" : 70e9,
+    "creator" : "AlephAlpha"
+},
+ "ai21_j1-grande" : {
+    "parameters" : 17e9,
+    "creator" : "ai21"
+},
+ "ai21_j1-grande-v2-beta" : {
+    "parameters" : 17e9,
+    "creator" : "ai21"
+},
+ "ai21_j1-jumbo" : {
+    "parameters" : 178e9,
+    "creator" : "ai21"
+},
+ "ai21_j1-large" : {
+    "parameters" : 7.5e9,
+    "creator" : "ai21"
+},
+ "ai21_j2-grande" : {
+    "parameters" : 17e9,
+    "creator" : "ai21"
+},
+ "ai21_j2-jumbo" : {
+    "parameters" : 178e9,
+    "creator" : "ai21"
+},
+ "ai21_j2-large" : {
+    "parameters" : 7.5e9,
+    "creator" : "ai21"
+},
+ "anthropic_stanford-online-all-v4-s3" : {
+    "parameters" : 52e9,
+    "creator" : "anthropic"
+},
+ "cohere_command-medium-beta" : {
+    "parameters" : 6.1e9,
+    "creator" : "cohere"
+},
+ "cohere_command-xlarge-beta" : {
+    "parameters" : 52.4e9,
+    "creator" : "cohere"
+},
+ "cohere_large-20220720" : {
+    "parameters" : 13.1e9,
+    "creator" : "cohere"
+},
+ "cohere_medium-20220720" : {
+    "parameters" : 6.1e9,
+    "creator" : "cohere"
+},
+ "cohere_medium-20221108" : {
+    "parameters" : 6.1e9,
+    "creator" : "cohere"
+},
+ "cohere_small-20220720" : {
+    "parameters" : 410e6,
+    "creator" : "cohere"
+},
+ "cohere_xlarge-20220609" : {
+    "parameters" : 52.4e9,
+    "creator" : "cohere"
+},
+ "cohere_xlarge-20221108" : {
+    "parameters" : 52.4e9,
+    "creator" : "cohere"
+},
+ "eleutherai_pythia-12b-v0" : {
+    "parameters" : 12e9,
+    "creator" : "eleutherai"
+},
+ "eleutherai_pythia-1b-v0" : {
+    "parameters" : 1e9,
+    "creator" : "eleutherai"
+},
+ "eleutherai_pythia-6.9b" : {
+    "parameters" : 6.9e9,
+    "creator" : "eleutherai"
+},
+ "lmsys_vicuna-13b-v1.3" : {
+    "parameters" : 13e9,
+    "creator" : "lmsys"
+},
+ "lmsys_vicuna-7b-v1.3" : {
+    "parameters" : 7e9,
+    "creator" : "lmsys"
+},
+ "meta_llama-13b" : {
+    "parameters" : 13e9,
+    "creator" : "meta"
+},
+ "meta_llama-2-13b" : {
+    "parameters" : 13e9,
+    "creator" : "meta"
+},
+ "meta_llama-2-70b" : {
+    "parameters" : 70e9,
+    "creator" : "meta"
+},
+ "meta_llama-2-7b" : {
+    "parameters" : 7e9,
+    "creator" : "meta"
+},
+ "meta_llama-30b" : {
+    "parameters" : 30e9,
+    "creator" : "meta"
+},
+ "meta_llama-65b" : {
+    "parameters" : 65e9,
+    "creator" : "meta"
+},
+ "meta_llama-7b" : {
+    "parameters" : 7e9,
+    "creator" : "meta"
+},
+ "microsoft_TNLGv2_530B" : {
+    "parameters" : 530e9,
+    "creator" : "microsoft"
+},
+ "microsoft_TNLGv2_7B" : {
+    "parameters" : 7e9,
+    "creator" : "microsoft"
+},
+ "mistralai_mistral-7b-v0.1" : {
+    "parameters" : 7e9,
+    "creator" : "mistralai"
+},
+ "mosaicml_mpt-30b" : {
+    "parameters" : 30e9,
+    "creator" : "mosaicml"
+},
+ "mosaicml_mpt-instruct-30b" : {
+    "parameters" : 30e9,
+    "creator" : "mosaicml"
+},
+ "openai_ada" : {
+    "parameters" : 350e6,
+    "creator" : "openai"
+},
+ "openai_babbage" : {
+    "parameters" : 1.3e9,
+    "creator" : "openai"
+},
+ "openai_code-cushman-001" : {
+    "parameters" : 12e9,
+    "creator" : "openai"
+},
+ "openai_code-davinci-002" : {
+    "parameters" : 175e9,
+    "creator" : "openai"
+},
+ "openai_curie" : {
+    "parameters" : 6.7e9,
+    "creator" : "openai"
+},
+ "openai_davinci" : {
+    "parameters" : 175e9,
+    "creator" : "openai"
+},
+ "openai_gpt-3.5-turbo-0301" : {
+    "parameters" : 20e9,
+    "creator" : "openai"
+},
+ "openai_gpt-3.5-turbo-0613" : {
+    "parameters" : 2e9,
+    "creator" : "openai"
+},
+ "openai_text-ada-001" : {
+    "parameters" : 350e6,
+    "creator" : "openai"
+},
+ "openai_text-babbage-001" : {
+    "parameters" : 1.3e9,
+    "creator" : "openai"
+},
+ "openai_text-curie-001" : {
+    "parameters" : 6.7e9,
+    "creator" : "openai"
+},
+ "openai_text-davinci-002" : {
+    "parameters" : 175e9,
+    "creator" : "openai"
+},
+ "openai_text-davinci-003" : {
+    "parameters" : 175e9,
+    "creator" : "openai"
+},
+ "stanford_alpaca-7b" : {
+    "parameters" : 7e9,
+    "creator" : "stanford"
+},
+ "tiiuae_falcon-40b" : {
+    "parameters" : 40e9,
+    "creator" : "tiiuae"
+},
+ "tiiuae_falcon-40b-instruct" : {
+    "parameters" : 40e9,
+    "creator" : "tiiuae"
+},
+ "tiiuae_falcon-7b" : {
+    "parameters" : 7e9,
+    "creator" : "tiiuae"
+},
+ "tiiuae_falcon-7b-instruct" : {
+    "parameters" : 7e9,
+    "creator" : "tiiuae"
+},
+ "together_bloom" : {
+    "parameters" : 176e9,
+    "creator" : "together"
+},
+ "together_glm" : {
+    "parameters" : 130e9,
+    "creator" : "together"
+},
+ "together_gpt-j-6b" : {
+    "parameters" : 6e9,
+    "creator" : "together"
+},
+ "together_gpt-neox-20b" : {
+    "parameters" : 20e9,
+    "creator" : "together"
+},
+ "together_opt-175b" : {
+    "parameters" : 175e9,
+    "creator" : "together"
+},
+ "together_opt-66b" : {
+    "parameters" : 66e9,
+    "creator" : "together"
+},
+ "together_redpajama-incite-base-3b-v1" : {
+    "parameters" : 3e9,
+    "creator" : "together"
+},
+ "together_redpajama-incite-base-7b" : {
+    "parameters" : 7e9,
+    "creator" : "together"
+},
+ "together_redpajama-incite-instruct-3b-v1" : {
+    "parameters" : 3e9,
+    "creator" : "together"
+},
+ "together_redpajama-incite-instruct-7b" : {
+    "parameters" : 7e9,
+    "creator" : "together"
+},
+ "together_t0pp" : {
+    "parameters" : 11e9,
+    "creator" : "together"
+},
+ "together_t5-11b" : {
+    "parameters" : 11e9,
+    "creator" : "together"
+},
+ "together_ul2" : {
+    "parameters" : 20e9,
+    "creator" : "together"
+},
+ "together_yalm" : {
+    "parameters" : 100e9,
+    "creator" : "together"
+},
+ "writer_palmyra-instruct-30" : {
+    "parameters" : 30e9,
+    "creator" : "writer_palmyra"
+},
+ "writer_palmyra-x" : {
+    "parameters" : 100e9,
+    "creator" : "writer_palmyra"
+}
+}

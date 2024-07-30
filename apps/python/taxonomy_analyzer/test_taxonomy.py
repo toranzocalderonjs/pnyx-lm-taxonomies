@@ -1,3 +1,4 @@
+import json
 import networkx as nx
 import matplotlib.pyplot as plt
 import sys
@@ -38,12 +39,21 @@ def main():
         required=True,
         help="Output path for the resulting graphs.",
     )
+    parser.add_argument(
+        "--metrics",
+        "-m",
+        type=str,
+        required=False,
+        default="kendall,mutual_information",
+        help="Metric or list of metrics (separated by commas) used to check the taxonomy.",
+    )
 
     # Parse arguments from the command line
     args = parser.parse_args()
     TAXONOMY_PATH = args.taxonomy
     HELM_RESULTS_PATHS = args.data
     OUTPUT_PATH = args.output
+    METRICS_USE = args.metrics.split(",")
 
     # Get taxonomy name
     taxonomy_name = os.path.basename(TAXONOMY_PATH).split(".")[0]
@@ -66,6 +76,10 @@ def main():
 
     # Filter for models that were tested on ALL datasets
     helm_samples_fullytested_dict = txm_utils.filter_for_full_samples(helm_samples_dict)
+    if len(helm_samples_fullytested_dict) == 0:
+        raise ValueError(
+            "No data to process, no node in the taxonomy has available test data."
+        )
 
     # Create taxonomy datasets metrics dataframe
     datasets_data_df = txm_utils.get_taxonomy_datasets_metrics_dataframe(
@@ -92,42 +106,113 @@ def main():
     )
 
     # Get nodes correlations
-    correlation_matrix, correlation_matrix_filtered = (
-        txm_utils.get_taxonomy_nodes_correlation(
-            nodes_data_df, taxonomy_graph, verbose=True
+    corr_dict_list = list()
+    names_list = list()
+    for metric_use in METRICS_USE:
+        correlation_matrix, correlation_matrix_filtered, corr_dict = (
+            txm_utils.get_taxonomy_nodes_correlation(
+                nodes_data_df,
+                taxonomy_graph,
+                method=metric_use,
+                verbose=True,
+            )
         )
-    )
-    # Save
-    pd.DataFrame(correlation_matrix).to_csv(
-        os.path.join(
-            OUTPUT_PATH,
-            "%s" % taxonomy_name + "_full_corrleation.csv",
-        ),
-        index=False,
-        header=False,
-    )
-    pd.DataFrame(correlation_matrix_filtered).to_csv(
-        os.path.join(
-            OUTPUT_PATH,
-            "%s" % taxonomy_name + "_filtered_corrleation.csv",
-        ),
-        index=False,
-        header=False,
-    )
+        # Save
+        pd.DataFrame(correlation_matrix).to_csv(
+            os.path.join(
+                OUTPUT_PATH,
+                "%s" % taxonomy_name + "_full_metric_%s.csv" % metric_use,
+            ),
+            index=False,
+            header=False,
+        )
+        pd.DataFrame(correlation_matrix_filtered).to_csv(
+            os.path.join(
+                OUTPUT_PATH,
+                "%s" % taxonomy_name + "_filtered_metric_%s.csv" % metric_use,
+            ),
+            index=False,
+            header=False,
+        )
 
-    # Get the unbalanced correlation, using all possible models in each edge
-    correlation_matrix_imbalanced = txm_utils.get_taxonomy_per_edge_correlation(
-        taxonomy_graph, helm_samples_dict, verbose=True
-    )
-    # Save
-    pd.DataFrame(correlation_matrix_imbalanced).to_csv(
-        os.path.join(
-            OUTPUT_PATH,
-            "%s" % taxonomy_name + "_imbalanced_corrleation.csv",
-        ),
-        index=False,
-        header=False,
-    )
+        # Get the unbalanced correlation, using all possible models in each edge
+        correlation_matrix_imbalanced, corr_dict_imbalanced = (
+            txm_utils.get_taxonomy_per_edge_correlation(
+                taxonomy_graph, helm_samples_dict, method=metric_use, verbose=True
+            )
+        )
+        # Save
+        pd.DataFrame(correlation_matrix_imbalanced).to_csv(
+            os.path.join(
+                OUTPUT_PATH,
+                "%s" % taxonomy_name + "_imbalanced_metric_%s.csv" % metric_use,
+            ),
+            index=False,
+            header=False,
+        )
+
+        # Track names and metrics for compilation
+        corr_dict_list.append(corr_dict)
+        corr_dict_list.append(corr_dict_imbalanced)
+        names_list.append(metric_use)
+        names_list.append("imabalanced_" + metric_use)
+
+        # Plot compacto de todos los nodos contra todos
+        if metric_use == "mutual_information":
+            method_use = txm_utils.custom_mi_reg
+        else:
+            method_use = metric_use
+        correlation_matrix = nodes_data_df.loc[:, (nodes_data_df != 0).any()].corr(
+            method=method_use
+        )
+        # Create a heatmap for visualization
+        im = plt.matshow(correlation_matrix, cmap="coolwarm")
+        im.set_clim([-1.0, 1.0])
+        # Add colorbar
+        plt.colorbar()
+        # Set column labels
+        plt.xticks(
+            range(len(correlation_matrix.columns)),
+            correlation_matrix.columns,
+            rotation=90,
+        )
+        plt.yticks(range(len(correlation_matrix.columns)), correlation_matrix.columns)
+        # Set title
+        plt.title("%s" % TAXONOMY_PATH.split("/")[-1])
+        plt.draw()
+        plt.savefig(
+            os.path.join(
+                OUTPUT_PATH,
+                "%s" % taxonomy_name + "_taxonomy_metric_%s_matrix.png" % metric_use,
+            ),
+            bbox_inches="tight",
+        )
+
+    # Compile all jsons into a single one and save
+    def add_metric(other_dicts, others_names):
+        dict_out = dict()
+        for other_dict, other_name in zip(other_dicts, others_names):
+            for key in other_dict.keys():
+                if key != "nodes":
+                    dict_out[other_name] = other_dict[key]
+        if other_dict.get("nodes", None) is None:
+            return dict_out
+        dict_out["nodes"] = dict()
+        for key in other_dict["nodes"].keys():
+            dict_out["nodes"][key] = add_metric(
+                [other_dict["nodes"][key] for other_dict in other_dicts], others_names
+            )
+        return dict_out
+
+    corr_dict_comp = dict()
+    for key in corr_dict_list[0].keys():
+        corr_dict_comp[key] = add_metric(
+            [other_dict[key] for other_dict in corr_dict_list], names_list
+        )
+    with open(
+        os.path.join(OUTPUT_PATH, "%s" % taxonomy_name + "_metrics_dict.json"), "w"
+    ) as fp:
+        json.dump(corr_dict_comp, fp, indent=4)
 
     ############################################################################
     # ----------- Images
@@ -167,28 +252,6 @@ def main():
         os.path.join(
             OUTPUT_PATH, "%s" % taxonomy_name + "_dataset_assignment_graph.png"
         )
-    )
-
-    # mas compacta
-    correlation_matrix = nodes_data_df.loc[:, (nodes_data_df != 0).any()].corr()
-    # Create a heatmap for visualization
-    im = plt.matshow(correlation_matrix, cmap="coolwarm")
-    im.set_clim([-1.0, 1.0])
-    # Add colorbar
-    plt.colorbar()
-    # Set column labels
-    plt.xticks(
-        range(len(correlation_matrix.columns)), correlation_matrix.columns, rotation=90
-    )
-    plt.yticks(range(len(correlation_matrix.columns)), correlation_matrix.columns)
-    # Set title
-    plt.title("%s" % TAXONOMY_PATH.split("/")[-1])
-    plt.draw()
-    plt.savefig(
-        os.path.join(
-            OUTPUT_PATH, "%s" % taxonomy_name + "_taxonomy_correlation_matrix.png"
-        ),
-        bbox_inches="tight",
     )
 
 

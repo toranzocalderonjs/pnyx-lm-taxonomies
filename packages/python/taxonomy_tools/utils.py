@@ -1,8 +1,24 @@
+import re
 import networkx as nx
 import numpy as np
 import pandas as pd
 import collections
 from typing import List, Tuple
+import os
+import json
+from scipy.stats import spearmanr, kendalltau
+from sklearn.feature_selection import mutual_info_regression
+
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+root_dir = os.path.normpath(os.path.join(current_dir, os.pardir, os.pardir, os.pardir))
+
+# This config file contains data for each of the models that HELM tested (and potentially more)
+models_config_path = os.environ.get(
+    "MODELS_CONFIG_PATH", os.path.join(root_dir, "config", "models.json")
+)
+with open(models_config_path) as f:
+    models_config = json.load(f)
 
 
 def load_taxonomy(
@@ -27,7 +43,7 @@ def load_taxonomy(
     graphs_dict = dict()
     with open(file_path) as f:
         for line in f:
-            if len(line) == 0:
+            if len(line) == 0 or re.search("\s+//", line):
                 continue
 
             if "{" in line:
@@ -167,7 +183,7 @@ def get_taxonomy_datasets(taxonomy_graph: nx.classes.digraph.DiGraph) -> List:
     return datasets_list
 
 
-def filter_for_full_samples(samples_dict: dict) -> dict:
+def filter_for_full_samples(samples_dict: dict, model_creator: str = "") -> dict:
     """
     Given a samples dictionary, containing datasets and the corresponding tested
     models, filters all models that were not tested on ALL the datasets.
@@ -186,6 +202,38 @@ def filter_for_full_samples(samples_dict: dict) -> dict:
         for model, count in included_dataset_count.items()
         if count == len(samples_dict.keys())
     ]
+
+    if len(model_creator) > 0:
+        keep_list = list()
+        creators_added = list()
+        for model in use_models:
+            this_cfg = models_config.get(model, None)
+            keep = True
+
+            if model_creator == "unique":
+                # Check if there is a model of this family in the list
+                for aux_model in use_models:
+                    aux_cfg = models_config.get(aux_model, None)
+                    if this_cfg["creator"] == aux_cfg["creator"] and aux_model != model:
+                        if this_cfg["parameters"] < aux_cfg["parameters"]:
+                            # keep the one with more parameters
+                            keep = False
+                            break
+                        elif this_cfg["parameters"] == aux_cfg["parameters"]:
+                            # Keep only the first we find
+                            if this_cfg["creator"] in creators_added:
+                                keep = False
+                                break
+            else:
+                # The argument is the name of the family to keep
+                if model_creator != this_cfg["creator"]:
+                    keep = False
+
+            if keep:
+                keep_list.append(model)
+                creators_added.append(this_cfg["creator"])
+        use_models = keep_list
+
     use_models.sort()
     samples_fullytested_dict = dict()
     for dataset in samples_dict.keys():
@@ -252,7 +300,8 @@ def get_taxonomy_datasets_node_dataframe(
     for idx, node in enumerate(node_names):
         node_dataset_list = taxonomy_graph.nodes[node].get("datasets", None)
         if node_dataset_list is None:
-            print("No dataset for node : %s" % node)
+            if verbose:
+                print("No dataset with fully tested models for node : %s" % node)
 
         else:
             # get the datasets data
@@ -260,7 +309,8 @@ def get_taxonomy_datasets_node_dataframe(
                 values_dict = samples_dict.get(dataset, None)
                 # Now fill matrix, data is already sorted
                 if values_dict is None:
-                    print("No values found for dataset : %s" % dataset)
+                    if verbose:
+                        print("No values found for dataset : %s" % dataset)
                 else:
                     data_matrix[idx, :] += list(values_dict.values())
                     count_matrix[idx, :] += 1
@@ -271,18 +321,54 @@ def get_taxonomy_datasets_node_dataframe(
     return data_df
 
 
+def custom_mi_reg(a, b):
+    a = a.reshape(-1, 1)
+    if np.sum(a) == 0 or np.sum(b) == 0:
+        return np.NaN
+    return mutual_info_regression(a, b)[0]
+
+
+def extract_edge_corr(node_name, taxonomy_graph, data_matrix, method_name) -> dict:
+    """
+    Get a node correlation to its downstream nodes and return the data as dict
+    """
+    nodes_array = np.array(taxonomy_graph.nodes())
+    node_dict = dict()
+    for edge in taxonomy_graph.out_edges(node_name):
+        node_dict[edge[1]] = dict()
+
+        # Get adj matrix locations
+        x = np.argwhere(nodes_array == edge[0])[0][0]
+        y = np.argwhere(nodes_array == edge[1])[0][0]
+        corr_val = data_matrix[x, y]
+        node_dict[edge[1]][method_name] = corr_val
+
+        # Go down
+        node_dict[edge[1]]["nodes"] = extract_edge_corr(
+            edge[1], taxonomy_graph, data_matrix, method_name
+        )
+
+    return node_dict
+
+
 def get_taxonomy_nodes_correlation(
     data_df: pd.DataFrame,
     taxonomy_graph: nx.classes.digraph.DiGraph,
     verbose: bool = False,
+    method: str = "pearson",
 ) -> Tuple[np.array, np.array]:
     """
     Using the taxonomy nodes data and the graph calculates the full correlations
     matrix and also a version with only values where valid edges are defined.
     """
 
+    if method == "mutual_information":
+        method_use = custom_mi_reg
+    else:
+        method_use = method
+
     # calculate correlation
-    correlation_matrix = data_df.corr()
+    correlation_matrix = data_df.corr(method=method_use)
 
     # Filter correlation matrix for edges positions only
     correlation_matrix_filtered = np.zeros_like(correlation_matrix.values)
@@ -298,14 +384,28 @@ def get_taxonomy_nodes_correlation(
         print("Total edges:")
         print(len(taxonomy_graph.edges))
         print("Measurable edges with data:")
-        print(len(correlation_matrix_filtered[correlation_matrix_filtered > 0]))
+        print(len(correlation_matrix_filtered[correlation_matrix_filtered != 0]))
 
-    return correlation_matrix, correlation_matrix_filtered
+    # Create a dictionary with correlations over the taxonomy
+    graph_json = dict()
+    # Get nodes without incoming connections, the most higher level abilities
+    root_nodes = [
+        node for node, in_degree in taxonomy_graph.in_degree() if in_degree == 0
+    ]
+    # Apply recursively
+    for root in root_nodes:
+        graph_json[root] = dict()
+        graph_json[root]["nodes"] = extract_edge_corr(
+            root, taxonomy_graph, correlation_matrix.values, method
+        )
+
+    return correlation_matrix, correlation_matrix_filtered, graph_json
 
 
 def get_taxonomy_per_edge_correlation(
     taxonomy_graph: nx.classes.digraph.DiGraph,
     samples_dict: dict,
+    method: str = "pearson",
     verbose: bool = False,
 ) -> np.array:
     """
@@ -379,6 +479,32 @@ def get_taxonomy_per_edge_correlation(
             if count != 0:
                 values_1[idx] /= count
         if np.sum(values_0) != 0 and np.sum(values_1) != 0:
-            correlation_matrix_imbalanced[x, y] = np.corrcoef(values_0, values_1)[1, 0]
+            if method == "pearson":
+                correlation_matrix_imbalanced[x, y] = np.corrcoef(values_0, values_1)[
+                    1, 0
+                ]
+            elif method == "spearman":
+                correlation_matrix_imbalanced[x, y], _ = spearmanr(values_0, values_1)
+            elif method == "kendall":
+                correlation_matrix_imbalanced[x, y], _ = kendalltau(values_0, values_1)
+            elif method == "mutual_information":
+                correlation_matrix_imbalanced[x, y] = custom_mi_reg(values_0, values_1)
+            else:
+                raise ValueError("Unknown method for metric : %s" % method)
+        else:
+            correlation_matrix_imbalanced[x, y] = np.NaN
 
-    return correlation_matrix_imbalanced
+    # Create a dictionary with correlations over the taxonomy
+    graph_json = dict()
+    # Get nodes without incoming connections, the most higher level abilities
+    root_nodes = [
+        node for node, in_degree in taxonomy_graph.in_degree() if in_degree == 0
+    ]
+    # Apply recursively
+    for root in root_nodes:
+        graph_json[root] = dict()
+        graph_json[root]["nodes"] = extract_edge_corr(
+            root, taxonomy_graph, correlation_matrix_imbalanced, method
+        )
+
+    return correlation_matrix_imbalanced, graph_json
