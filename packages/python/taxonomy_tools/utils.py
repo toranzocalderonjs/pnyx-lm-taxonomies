@@ -22,7 +22,10 @@ with open(models_config_path) as f:
 
 
 def load_taxonomy(
-    file_path: str, return_all: List = False, verbose: bool = False
+    file_path: str,
+    return_all: List = False,
+    verbose: bool = False,
+    print_prefix: str = "",
 ) -> any:
     """
     Loads a taxonomy in the graphviz format:
@@ -49,7 +52,7 @@ def load_taxonomy(
             if "{" in line:
                 graph_name = line.split("digraph")[-1].split("{")[0].strip()
                 if verbose:
-                    print("Found graph : %s" % graph_name)
+                    print(print_prefix + "Found graph : %s" % graph_name)
                 graphs_dict[graph_name] = nx.DiGraph()
             elif "}" in line:
                 continue
@@ -96,7 +99,8 @@ def load_taxonomy(
             measurable_edges.append(edge)
     if verbose:
         print(
-            "%d undefined edges of %d edges (%d are potentially measurable)"
+            print_prefix
+            + "%d undefined edges of %d edges (%d are potentially measurable)"
             % (len(undefined_edges), len(taxonomy_graph.edges), len(measurable_edges))
         )
 
@@ -130,9 +134,9 @@ def load_taxonomy(
                 dataset_list_aux = taxonomy_graph.nodes[edge[0]].get("datasets", [])
                 for dataset in dataset_list_aux:
                     if dataset in dataset_list:
-                        print("Error in path : ")
+                        print(print_prefix + "Error in path : ")
                         for node in node_path:
-                            print("\t%s" % node_path)
+                            print(print_prefix + "\t%s" % node_path)
                         raise ValueError(
                             "Detected downstream dataset sharing in node %s with %s on dataset %s"
                             % (node, edge[0], dataset)
@@ -283,6 +287,7 @@ def get_taxonomy_datasets_node_dataframe(
     samples_dict: dict,
     taxonomy_graph: nx.classes.digraph.DiGraph,
     verbose: bool = False,
+    print_prefix: str = "",
 ) -> pd.DataFrame:
     """
     Receives a filtered sample dictionary (only with fully tested models) and
@@ -301,7 +306,10 @@ def get_taxonomy_datasets_node_dataframe(
         node_dataset_list = taxonomy_graph.nodes[node].get("datasets", None)
         if node_dataset_list is None:
             if verbose:
-                print("No dataset with fully tested models for node : %s" % node)
+                print(
+                    print_prefix
+                    + "No dataset with fully tested models for node : %s" % node
+                )
 
         else:
             # get the datasets data
@@ -310,7 +318,9 @@ def get_taxonomy_datasets_node_dataframe(
                 # Now fill matrix, data is already sorted
                 if values_dict is None:
                     if verbose:
-                        print("No values found for dataset : %s" % dataset)
+                        print(
+                            print_prefix + "No values found for dataset : %s" % dataset
+                        )
                 else:
                     data_matrix[idx, :] += list(values_dict.values())
                     count_matrix[idx, :] += 1
@@ -355,6 +365,7 @@ def get_taxonomy_nodes_correlation(
     data_df: pd.DataFrame,
     taxonomy_graph: nx.classes.digraph.DiGraph,
     verbose: bool = False,
+    print_prefix: str = "",
     method: str = "pearson",
 ) -> Tuple[np.array, np.array]:
     """
@@ -381,10 +392,13 @@ def get_taxonomy_nodes_correlation(
         if not np.isnan(corr_val):
             correlation_matrix_filtered[x, y] = corr_val
     if verbose:
-        print("Total edges:")
-        print(len(taxonomy_graph.edges))
-        print("Measurable edges with data:")
-        print(len(correlation_matrix_filtered[correlation_matrix_filtered != 0]))
+        print(print_prefix + "Total edges:")
+        print(print_prefix + "%d" % len(taxonomy_graph.edges))
+        print(print_prefix + "Measurable edges with data:")
+        print(
+            print_prefix
+            + "%d" % len(correlation_matrix_filtered[correlation_matrix_filtered != 0])
+        )
 
     # Create a dictionary with correlations over the taxonomy
     graph_json = dict()
@@ -407,6 +421,7 @@ def get_taxonomy_per_edge_correlation(
     samples_dict: dict,
     method: str = "pearson",
     verbose: bool = False,
+    print_prefix: str = "",
 ) -> np.array:
     """
     Calculates the taxonomy edges correlation values using all possible data,

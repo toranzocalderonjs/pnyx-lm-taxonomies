@@ -1,4 +1,4 @@
-# pnyx-propylaeon
+# pnyx-lm-taxonomies
 
 
 ### Local Python Dev

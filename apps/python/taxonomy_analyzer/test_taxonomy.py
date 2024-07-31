@@ -57,24 +57,47 @@ def main():
 
     # Get taxonomy name
     taxonomy_name = os.path.basename(TAXONOMY_PATH).split(".")[0]
-    print("Processing taxonomy: %s" % taxonomy_name)
+    print('Processing taxonomy: "%s"' % taxonomy_name)
 
     # Load taxonomy
+    print(
+        "--------------------------------------------------------------------------------"
+    )
+    print("Reading taxonomy graph:")
     taxonomy_graph, labels_graph, undefined_edges, measurable_edges = (
-        txm_utils.load_taxonomy(TAXONOMY_PATH, return_all=True, verbose=True)
+        txm_utils.load_taxonomy(
+            TAXONOMY_PATH, return_all=True, verbose=True, print_prefix="\t"
+        )
     )
 
     # Get all the required datasets from the taxonomy graph
+    print(
+        "--------------------------------------------------------------------------------"
+    )
+    print("Reading taxonomy datasets:")
     datasets_list = txm_utils.get_taxonomy_datasets(taxonomy_graph)
 
     # Read all the required data from HELM
+    print(
+        "--------------------------------------------------------------------------------"
+    )
     helm_samples_dict = dict()
     for data_path in HELM_RESULTS_PATHS:
+        print("Analyzing dataset path: %s" % data_path)
         helm_samples_dict = txm_helm_data.read_helm_data(
-            data_path, datasets_list, current_dict=helm_samples_dict, verbose=True
+            data_path,
+            datasets_list,
+            current_dict=helm_samples_dict,
+            verbose=True,
+            print_prefix="\t",
         )
 
     # Filter for models that were tested on ALL datasets
+
+    print(
+        "--------------------------------------------------------------------------------"
+    )
+    print("Filtering fully tested datasets:")
     helm_samples_fullytested_dict = txm_utils.filter_for_full_samples(helm_samples_dict)
     if len(helm_samples_fullytested_dict) == 0:
         raise ValueError(
@@ -82,6 +105,10 @@ def main():
         )
 
     # Create taxonomy datasets metrics dataframe
+    print(
+        "--------------------------------------------------------------------------------"
+    )
+    print("Generating datasets score matrix:")
     datasets_data_df = txm_utils.get_taxonomy_datasets_metrics_dataframe(
         helm_samples_fullytested_dict
     )
@@ -94,8 +121,12 @@ def main():
     )
 
     # Create taxonomy nodes metrics dataframe
+    print(
+        "--------------------------------------------------------------------------------"
+    )
+    print("Generating taxonomy nodes score matrix:")
     nodes_data_df = txm_utils.get_taxonomy_datasets_node_dataframe(
-        helm_samples_fullytested_dict, taxonomy_graph, verbose=True
+        helm_samples_fullytested_dict, taxonomy_graph, verbose=True, print_prefix="\t"
     )
     # Save
     nodes_data_df.to_csv(
@@ -106,15 +137,20 @@ def main():
     )
 
     # Get nodes correlations
+    print(
+        "--------------------------------------------------------------------------------"
+    )
     corr_dict_list = list()
     names_list = list()
     for metric_use in METRICS_USE:
+        print('Analyzing metric: "%s"' % metric_use)
         correlation_matrix, correlation_matrix_filtered, corr_dict = (
             txm_utils.get_taxonomy_nodes_correlation(
                 nodes_data_df,
                 taxonomy_graph,
                 method=metric_use,
                 verbose=True,
+                print_prefix="\t",
             )
         )
         # Save
@@ -138,7 +174,11 @@ def main():
         # Get the unbalanced correlation, using all possible models in each edge
         correlation_matrix_imbalanced, corr_dict_imbalanced = (
             txm_utils.get_taxonomy_per_edge_correlation(
-                taxonomy_graph, helm_samples_dict, method=metric_use, verbose=True
+                taxonomy_graph,
+                helm_samples_dict,
+                method=metric_use,
+                verbose=True,
+                print_prefix="\t",
             )
         )
         # Save
@@ -213,48 +253,69 @@ def main():
         os.path.join(OUTPUT_PATH, "%s" % taxonomy_name + "_metrics_dict.json"), "w"
     ) as fp:
         json.dump(corr_dict_comp, fp, indent=4)
+    print("\tMetrics results saved to disk.")
 
     ############################################################################
     # ----------- Images
     ############################################################################
-
-    pos = nx.nx_pydot.graphviz_layout(
-        taxonomy_graph, prog="dot"
-    )  # Choose layout algorithm
-    # Draw the graph with desired customizations
-    plt.figure(figsize=(15, 6))  # Adjust width and height as desired
-    nx.draw_networkx(
-        taxonomy_graph,
-        pos,
-        with_labels=True,
-        node_color="lightblue",
-        edge_color="black",
-        font_size=8,
+    print(
+        "--------------------------------------------------------------------------------"
     )
-    plt.draw()
-    plt.savefig(os.path.join(OUTPUT_PATH, "%s" % taxonomy_name + "_taxonomy_graph.png"))
-
-    pos = nx.nx_pydot.graphviz_layout(
-        labels_graph, prog="dot"
-    )  # Choose layout algorithm
-    # Draw the graph with desired customizations
-    plt.figure(figsize=(25, 4))  # Adjust width and height as desired
-    nx.draw_networkx(
-        labels_graph,
-        pos,
-        with_labels=True,
-        node_color="lightblue",
-        edge_color="black",
-        font_size=8,
-    )
-    plt.draw()
-    plt.savefig(
-        os.path.join(
-            OUTPUT_PATH, "%s" % taxonomy_name + "_dataset_assignment_graph.png"
+    print("Saving images to disk:")
+    try:
+        pos = nx.nx_pydot.graphviz_layout(
+            taxonomy_graph, prog="dot"
+        )  # Choose layout algorithm
+        # Draw the graph with desired customizations
+        plt.figure(figsize=(15, 6))  # Adjust width and height as desired
+        nx.draw_networkx(
+            taxonomy_graph,
+            pos,
+            with_labels=True,
+            node_color="lightblue",
+            edge_color="black",
+            font_size=8,
         )
-    )
+        plt.draw()
+        plt.savefig(
+            os.path.join(OUTPUT_PATH, "%s" % taxonomy_name + "_taxonomy_graph.png")
+        )
+    except Exception as e:
+        print("\t" + str(e))
+        print("\tCannot draw taxonomy graph. Ignoring and continuing.")
+
+    try:
+        pos = nx.nx_pydot.graphviz_layout(
+            labels_graph, prog="dot"
+        )  # Choose layout algorithm
+        # Draw the graph with desired customizations
+        plt.figure(figsize=(25, 4))  # Adjust width and height as desired
+        nx.draw_networkx(
+            labels_graph,
+            pos,
+            with_labels=True,
+            node_color="lightblue",
+            edge_color="black",
+            font_size=8,
+        )
+        plt.draw()
+        plt.savefig(
+            os.path.join(
+                OUTPUT_PATH, "%s" % taxonomy_name + "_dataset_assignment_graph.png"
+            )
+        )
+    except Exception as e:
+        print("\t" + str(e))
+        print("\tCannot draw dataset assignment graph. Ignoring and continuing.")
 
 
 # Run the main function if the script is executed directly
 if __name__ == "__main__":
+    print(
+        "--------------------------------------------------------------------------------"
+    )
     main()
+    print(
+        "--------------------------------------------------------------------------------"
+    )
+    print("Finished.")

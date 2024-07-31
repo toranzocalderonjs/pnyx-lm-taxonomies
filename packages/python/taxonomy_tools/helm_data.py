@@ -55,6 +55,7 @@ def read_helm_data(
     helm_data_path: str,
     datasets_list: List[str],
     verbose: bool = False,
+    print_prefix: str = "",
     current_dict: dict = {},
     parameters_range: Tuple[float, float] = [0, 0],
 ) -> dict:
@@ -72,10 +73,12 @@ def read_helm_data(
 
     for dataset in datasets_list:
         if dataset in helm_samples_dict.keys():
-            print(
-                "Skipping dataset %s, it is already present in the provided samples dictionary."
-                % dataset
-            )
+            if verbose:
+                print(
+                    print_prefix
+                    + "Skipping dataset %s, it is already present in the provided samples dictionary."
+                    % dataset
+                )
             continue
 
         # Get list of associated tasks
@@ -84,17 +87,17 @@ def read_helm_data(
         ignored = False
         for task in task_list:
             if task["name"] == "IGNORE-ME":
-                print("Ignoring dataset : %s" % dataset)
+                print(print_prefix + "Ignoring dataset : %s" % dataset)
                 ignored = True
                 continue
+            task_name = task["name"]
+            if is_windows:
+                # replace the ":" with "-" in the test name
+                task_name = task_name.replace(":", "-")
             # Get all results matching this task
             matching_results = list()
             for t_dir in tasks_dirs:
-                task_name = task["name"]
-                if is_windows:
-                    # replace the ":" with "-" in the test name
-                    task_name = task_name.replace(":", "-")
-                if task_name in t_dir:
+                if task_name + ",model" in t_dir or task_name + ":model" in t_dir:
                     # Check for suffix
                     suffixs = ""
                     for s in t_dir.split("model=")[-1].split(",")[1:]:
@@ -122,7 +125,7 @@ def read_helm_data(
                         matching_results.append(t_dir)
             if len(matching_results) == 0:
                 if verbose:
-                    print("task not found : %s" % task["name"])
+                    print(print_prefix + "task not found : %s" % task["name"])
 
             # Get the tested models names
             tested_models = [
@@ -157,7 +160,8 @@ def read_helm_data(
                 if len(tested_models_use) == 0:
                     if verbose:
                         print(
-                            "(Task : %s) No models found with the selected parameter range: [%g , %g]"
+                            print_prefix
+                            + "(Task : %s) No models found with the selected parameter range: [%g , %g]"
                             % (task["name"], parameters_range[0], parameters_range[1])
                         )
                 # Replace list
@@ -204,7 +208,7 @@ def read_helm_data(
                 helm_samples_dict[dataset] = tasks_results_dict
             else:
                 if verbose:
-                    print("No data found for dataset: %s" % dataset)
+                    print(print_prefix + "No data found for dataset: %s" % dataset)
 
     return helm_samples_dict
 
