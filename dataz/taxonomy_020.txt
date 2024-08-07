@@ -1,0 +1,99 @@
+digraph taxonomy_020 {
+
+    Language -> Pragmatic_Competence;
+    Language -> Semantics_Competence;
+    Language -> Syntactic_Competence;
+
+    Pragmatic_Competence -> Ambiguity_Resolution;
+    Pragmatic_Competence -> Reference_Tracking;
+    Pragmatic_Competence -> Register;
+
+    Semantics_Competence -> General_Semantics;
+    Semantics_Competence -> Logical_Semantics;
+    
+    Knowledge -> Natural_Knowledge;
+    Knowledge -> Encyclopedic_Knowledge;
+
+    Reasoning -> Monotonic;
+    Reasoning -> Defeasible;
+
+    Monotonic -> Analytic;
+    Monotonic -> Deductive;
+
+    Defeasible -> Inductive;
+    Defeasible -> Abductive;
+}
+
+digraph taxonomy_020_labeling {
+
+    Monotonic -> babi_qa_Task_1;
+    Monotonic -> babi_qa_Task_2;
+    Monotonic -> babi_qa_Task_3;
+    Monotonic -> babi_qa_Task_4;
+    Monotonic -> babi_qa_Task_5;
+    Monotonic -> babi_qa_Task_6;
+    Monotonic -> babi_qa_Task_7;
+    Monotonic -> babi_qa_Task_8;
+    Monotonic -> babi_qa_Task_9;
+    Monotonic -> babi_qa_Task_10;
+    Monotonic -> babi_qa_Task_11;
+    Monotonic -> babi_qa_Task_12;
+    Monotonic -> babi_qa_Task_13;
+    Defeasible -> babi_qa_Task_14;
+    Monotonic -> babi_qa_Task_15;
+    Defeasible -> babi_qa_Task_16;
+    Monotonic -> babi_qa_Task_17;
+    Monotonic -> babi_qa_Task_18;
+    Monotonic -> babi_qa_Task_19;
+    Defeasible -> babi_qa_Task_20;
+    
+    Syntactic_Competence -> blimp_binding;
+    Syntactic_Competence -> blimp_irregular_forms;
+    Syntactic_Competence -> blimp_island_effects;
+    Logical_Semantics -> blimp_quantifiers;
+    Natural_Knowledge -> hellaswag;
+    Natural_Knowledge -> openbookqa;
+//    Deductive -> dyck_language;
+    Deductive -> entity_matching_abt_buy;
+    Deductive -> entity_matching_beer;
+    Deductive -> entity_matching_itunes;
+    Language -> ice_female;
+    Language -> ice_male;
+    Language -> ice_ea;
+    Language -> ice_hk;
+    Language -> ice_ind;
+    Language -> ice_usa;
+    Reasoning -> legal_support;
+    Deductive -> lsat;
+    Encyclopedic_Knowledge -> mmlu;
+    Knowledge -> natural_qa_closed;
+//    Knowledge -> natural_qa_open;
+    Deductive -> synthetic_reasoning_nl_easy;
+    Deductive -> synthetic_reasoning_nl_hard;
+    Inductive -> synthetic_reasoning_induction;
+    Abductive -> synthetic_reasoning_pattern_match;
+    Deductive -> synthetic_reasoning_variable_substitution;
+    Register -> the_pile_arxiv;
+    Register -> the_pile_bookcorpus2;
+    Register -> the_pile_enron;
+    Register -> the_pile_github;
+    Register -> the_pile_pubmed;
+    Register -> the_pile_wikipedia;
+    Pragmatic_Competence -> truthful_qa;
+    Language -> twitter_aae_aa;
+    Language -> twitter_aae_white;
+    Knowledge -> wikifact_author;
+    Knowledge -> wikifact_currency;
+    Knowledge -> wikifact_discoverer_or_inventor;
+    Knowledge -> wikifact_instance_of;
+    Knowledge -> wikifact_medical_condition_treated;
+    Knowledge -> wikifact_part_of;
+    Knowledge -> wikifact_place_of_birth;
+    Knowledge -> wikifact_plaintiff;
+    Knowledge -> wikifact_position_held;
+    Knowledge -> wikifact_symptoms_and_signs;
+//    Analytic -> boolq;
+//    Deductive -> msmarco_regular;
+//    Deductive -> msmarco_trec;
+//    Analytic -> quac;
+}

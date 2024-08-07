@@ -1,0 +1,80 @@
+digraph taxonomy_003 {
+    Reasoning -> Reasoning_Evaluation;
+    Reasoning -> Reasoning_Production;
+
+    Reasoning_Production -> Producing_DR;
+    Reasoning_Production -> Producing_IR;
+
+    Reasoning_Evaluation -> Evaluating_DR;
+    Reasoning_Evaluation -> Evaluating_IR;
+
+    Producing_DR -> Logic_Conections;
+    Producing_DR -> Deductive_Conections;
+    Producing_DR -> Reasons;
+
+    Evaluating_DR -> Deductive_Conections;
+    Evaluating_DR -> Reasons;
+
+    Producing_IR -> Logic_Conections;
+    Producing_IR -> Inductive_Conections;
+    Producing_IR -> Reasons;
+
+    Evaluating_IR -> Inductive_Conections;
+    Evaluating_IR -> Reasons;
+
+    Reasons -> Premises;
+    Reasons -> Conclusions;
+
+    Knowledge -> Commonsense_Knowledge;
+    Knowledge -> Contextual_Knowledge;
+    Knowledge -> Encyclopedic_Knowledge;
+
+    Language -> Acts_Evaluation;
+    Language -> Acts_Production;
+
+    Acts_Evaluation -> Evaluating_Assertions;
+    Acts_Evaluation -> Evaluating_Interrogations;
+    Acts_Evaluation -> Evaluating_Directions;
+
+    Acts_Production -> Producing_Assertions;
+    Acts_Production -> Producing_Interrogations;
+    Acts_Production -> Producing_Directions;
+}
+
+digraph taxonomy_003_labeling {
+
+    Reasoning -> LegalSupport;
+    Reasoning -> Synthetic_reasoning_(natural_language);
+    
+    Reasoning_Production -> bAbI;
+
+    Producing_DR -> Synthetic_reasoning_(abstract_symbols):pattern_match;
+    Producing_DR -> Synthetic_reasoning_(abstract_symbols):variable_sustitution;
+    Producing_DR -> LSAT;
+
+    Evaluating_DR -> Synthetic_reasoning_(abstract_symbols):pattern_match;
+    Evaluating_DR -> Synthetic_reasoning_(abstract_symbols):variable_sustitution;
+
+    Producing_IR -> Synthetic_reasoning_(abstract_symbols):induction;
+
+    Evaluating_IR -> Synthetic_reasoning_(abstract_symbols):induction;
+
+    Producing_DR -> LSAT;
+
+    Commonsense_Knowledge -> HellaSwag;
+    Commonsense_Knowledge -> OpenBookQA;
+
+    Contextual_Knowledge -> HellaSwag;
+    Contextual_Knowledge -> OpenBookQA;
+
+    Encyclopedic_Knowledge -> MMLU;
+
+    Language -> WikiText-103;
+    Language -> The Pile;
+    Language -> TwitterAAE;
+    Language -> ICE;
+    Language -> WikiData;
+
+    Acts_Evaluation -> BLiMP;
+
+}

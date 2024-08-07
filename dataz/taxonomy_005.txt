@@ -1,0 +1,63 @@
+digraph taxonomy_005 {
+
+    Natural_Language_Reasoning -> Infer_From_Premises;
+
+    Infer_From_Premises -> Interpret_Premises;
+    Infer_From_Premises -> Retrieve_Relevant_Background_Knowledge;
+    Infer_From_Premises -> Apply_Logical_Connections;
+
+    Interpret_Premises -> Natural_Language_Understanding;
+
+    Retrieve_Relevant_Background_Knowledge -> Commonsense_Knowledge;
+    Retrieve_Relevant_Background_Knowledge -> Contextual_Knowledge;
+    Retrieve_Relevant_Background_Knowledge -> Encyclopedic_Knowledge;
+
+    Apply_Logical_Connections -> Monotonic;
+    Apply_Logical_Connections -> Defeasible;
+
+    Monotonic -> Deductive;
+
+    Defeasible -> Inductive;
+    Defeasible -> Abductive;
+
+    Natural_Language_Understanding -> Ambiguity_Resolution;
+    Natural_Language_Understanding -> Pragmatic_Competence;
+    Natural_Language_Understanding -> Reference_Tracking;
+    Natural_Language_Understanding -> Semantics;
+
+    Semantics -> General_Semantics;
+    Semantics -> Logical_Semantics;
+
+}
+
+digraph taxonomy_005_labeling {
+
+    Natural_Language_Reasoning -> Synthetic_reasoning_(natural_language);
+    
+    Apply_Logical_Connections -> bAbI;
+
+    Defeasible -> LegalSupport;
+
+    Deduction -> Synthetic_reasoning_(abstract_symbols):pattern_match;
+    Deduction -> Synthetic_reasoning_(abstract_symbols):variable_sustitution;
+    Deduction -> LSAT;
+
+    Induction -> Synthetic_reasoning_(abstract_symbols):induction;
+
+    Retrieve_Relevant_Background_Knowledge -> WikiData;
+
+    Commonsense_Knowledge -> HellaSwag;
+    Commonsense_Knowledge -> OpenBookQA;
+
+    Contextual_Knowledge -> HellaSwag;
+    Contextual_Knowledge -> OpenBookQA;
+
+    Encyclopedic_Knowledge -> MMLU;
+
+    Natural_Language_Understanding -> WikiText-103;
+    Natural_Language_Understanding -> The Pile;
+    Natural_Language_Understanding -> TwitterAAE;
+    Natural_Language_Understanding -> ICE;
+    Natural_Language_Understanding -> BLiMP;
+
+}

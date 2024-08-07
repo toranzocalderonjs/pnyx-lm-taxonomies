@@ -1,0 +1,81 @@
+digraph taxonomy_001 {
+    Reasoning -> Deduction;
+    Reasoning -> Induction;
+
+    Deduction -> Producing_DR;
+    Deduction -> Evaluating_DR;
+
+    Induction -> Producing_IR;
+    Induction -> Evaluating_IR;
+
+    Producing_DR -> Logic_Conections;
+    Producing_DR -> Deductive_Conections;
+    Producing_DR -> Reasons;
+
+    Evaluating_DR -> Deductive_Conections;
+    Evaluating_DR -> Reasons;
+
+    Producing_IR -> Logic_Conections;
+    Producing_IR -> Inductive_Conections;
+    Producing_IR -> Reasons;
+
+    Evaluating_IR -> Inductive_Conections;
+    Evaluating_IR -> Reasons;
+
+    Reasons -> Premises;
+    Reasons -> Conclusions;
+
+    Knowledge -> Commonsense_Knowledge;
+    Knowledge -> Contextual_Knowledge;
+    Knowledge -> Encyclopedic_Knowledge;
+
+    Language -> Assertive_Acts;
+    Language -> Interrogative_Acts;
+    Language -> Directive_Acts;
+
+    Assertive_Acts -> Producing_Assertions;
+    Assertive_Acts -> Evaluating_Assertions;
+
+    Interrogative_Acts -> Producing_Interrogations;
+    Interrogative_Acts -> Evaluating_Interrogations;
+
+    Directive_Acts -> Producing_Directions;
+    Directive_Acts -> Evaluating_Directions;
+}
+
+digraph taxonomy_001_labeling {
+
+    Reasoning -> LegalSupport;
+    Reasoning -> Synthetic_reasoning_(natural_language);
+    
+    Deduction -> Synthetic_reasoning_(abstract_symbols):pattern_match;
+    Deduction -> Synthetic_reasoning_(abstract_symbols):variable_sustitution;
+
+    Induction -> Synthetic_reasoning_(abstract_symbols):induction;
+
+    Producing_DR -> bAbI;
+    Producing_DR -> LSAT;
+
+    Producing_IR -> bAbI;
+
+    Commonsense_Knowledge -> HellaSwag;
+    Commonsense_Knowledge -> OpenBookQA;
+
+    Contextual_Knowledge -> HellaSwag;
+    Contextual_Knowledge -> OpenBookQA;
+
+    Encyclopedic_Knowledge -> MMLU;
+
+    Language -> WikiText-103;
+    Language -> The Pile;
+    Language -> TwitterAAE;
+    Language -> ICE;
+    Language -> WikiData;
+
+    Evaluating_Assertions -> BLiMP;
+
+    Evaluating_Interrogations -> BLiMP;
+
+    Evaluating_Directions -> BLiMP;
+
+}

@@ -1,0 +1,65 @@
+digraph taxonomy_008 {
+
+    Language -> Pragmatic_Competence;
+    Language -> Semantics_Competence;
+    Language -> Syntactic_Competence;
+
+    Pragmatic_Competence -> Ambiguity_Resolution;
+    Pragmatic_Competence -> Reference_Tracking;
+    Pragmatic_Competence -> Register;
+
+    Semantics_Competence -> General_Semantics;
+    Semantics_Competence -> Logical_Semantics;
+    
+    Knowledge -> Commonsense_Knowledge;
+    Knowledge -> Contextual_Knowledge;
+    Knowledge -> Encyclopedic_Knowledge;
+
+    Reasoning -> Monotonic;
+    Reasoning -> Defeasible;
+
+    Monotonic -> Deductive;
+
+    Defeasible -> Inductive;
+    Defeasible -> Abductive;
+}
+
+digraph taxonomy_008_labeling {
+
+    Reasoning -> bAbI;
+
+    Defeasible -> LegalSupport;
+
+    Deduction -> Synthetic_reasoning_(abstract_symbols):pattern_match;
+    Deduction -> Synthetic_reasoning_(abstract_symbols):variable_sustitution;
+    Deduction -> LSAT;
+
+    Induction -> Synthetic_reasoning_(abstract_symbols):induction;
+
+    Knowledge -> WikiData;
+
+    Commonsense_Knowledge -> HellaSwag;
+    Commonsense_Knowledge -> OpenBookQA;
+
+    Contextual_Knowledge -> HellaSwag;
+    Contextual_Knowledge -> OpenBookQA;
+
+    Encyclopedic_Knowledge -> MMLU;
+
+    Syntactic_Competence -> BLiMP;
+    Syntactic_Competence -> BLiMP:binding;
+    Syntactic_Competence -> BLiMP:irregular_forms;
+    Syntactic_Competence -> BLiMP:island_effects;
+    Syntactic_Competence -> BLiMP:quantifiers;
+
+    Language -> The Pile;
+    Register -> TwitterAAE;
+    Register -> ICE;
+
+    Register -> The_Pile:ArXiv;
+    Register -> The_Pile:BookCorpus2;
+    Register -> The_Pile:Enron Emails;
+    Register -> The_Pile:Github;
+    Register -> The_Pile:PubMed Central;
+    Register -> The_Pile:Wikipedia;
+}
