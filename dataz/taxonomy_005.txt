@@ -32,32 +32,31 @@ digraph taxonomy_005 {
 
 digraph taxonomy_005_labeling {
 
-    Natural_Language_Reasoning -> Synthetic_reasoning_(natural_language);
+    Natural_Language_Reasoning -> synthetic_reasoning_nl;
     
-    Apply_Logical_Connections -> bAbI;
+    Apply_Logical_Connections -> babi_qa_all;
 
-    Defeasible -> LegalSupport;
+    Defeasible -> legal_support;
 
-    Deduction -> Synthetic_reasoning_(abstract_symbols):pattern_match;
-    Deduction -> Synthetic_reasoning_(abstract_symbols):variable_sustitution;
-    Deduction -> LSAT;
+    Deduction -> synthetic_reasoning_pattern_match;
+    Deduction -> synthetic_reasoning_variable_substitution;
+    Deduction -> lsat;
 
-    Induction -> Synthetic_reasoning_(abstract_symbols):induction;
+    Induction -> synthetic_reasoning_induction;
 
-    Retrieve_Relevant_Background_Knowledge -> WikiData;
+    Retrieve_Relevant_Background_Knowledge -> wikidata;
 
-    Commonsense_Knowledge -> HellaSwag;
-    Commonsense_Knowledge -> OpenBookQA;
+    Commonsense_Knowledge -> hellaswag;
+    Commonsense_Knowledge -> openbookqa;
 
-    Contextual_Knowledge -> HellaSwag;
-    Contextual_Knowledge -> OpenBookQA;
+    Contextual_Knowledge -> hellaswag;
+    Contextual_Knowledge -> openbookqa;
 
-    Encyclopedic_Knowledge -> MMLU;
+    Encyclopedic_Knowledge -> mmlu;
 
-    Natural_Language_Understanding -> WikiText-103;
-    Natural_Language_Understanding -> The Pile;
-    Natural_Language_Understanding -> TwitterAAE;
-    Natural_Language_Understanding -> ICE;
-    Natural_Language_Understanding -> BLiMP;
+    Natural_Language_Understanding -> the_pile;
+    Natural_Language_Understanding -> twitter_aae;
+    Natural_Language_Understanding -> ice;
+    Natural_Language_Understanding -> blimp;
 
 }

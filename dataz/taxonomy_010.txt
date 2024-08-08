@@ -38,46 +38,46 @@ digraph taxonomy_010 {
 }
 
 digraph taxonomy_010_labeling {
-    Non_splitted_1 -> Synthetic_reasoning_(natural_language);
-    Non_splitted_2 -> Synthetic_reasoning_(abstract_symbols);
-    Non_splitted_3 -> MMLU;
-    Non_splitted_4 -> The Pile;
-    Non_splitted_5 -> TwitterAAE;
-    Non_splitted_6 -> ICE;
-    Non_splitted_7 -> BLiMP;
+    Non_splitted_1 -> synthetic_reasoning_nl;
+    Non_splitted_2 -> synthetic_reasoning_abstract;
+    Non_splitted_3 -> mmlu;
+    Non_splitted_4 -> the_pile;
+    Non_splitted_5 -> twitter_aae;
+    Non_splitted_6 -> ice;
+    Non_splitted_7 -> blimp;
 
-    Splitted_11 -> Synthetic_reasoning_(natural_language)---hard;
-    Splitted_12 -> Synthetic_reasoning_(natural_language)---easy;
+    Splitted_11 -> synthetic_reasoning_nl_easy;
+    Splitted_12 -> synthetic_reasoning_nl_hard;
 
-    Splitted_21 -> Synthetic_reasoning_(abstract_symbols)---pattern_match;
-    Splitted_22 -> Synthetic_reasoning_(abstract_symbols)---variable_sustitution;
-    Splitted_23 -> Synthetic_reasoning_(abstract_symbols)---induction;
+    Splitted_21 -> synthetic_reasoning_pattern_match;
+    Splitted_22 -> synthetic_reasoning_variable_substitution;
+    Splitted_23 -> synthetic_reasoning_induction;
     
-    Splitted_31 -> MMLU---abstract_algebra;
-    Splitted_32 -> MMLU---college_chemistry;
-    Splitted_33 -> MMLU---computer_security;
-    Splitted_34 -> MMLU---econometrics;
-    Splitted_35 -> MMLU---us_foreign_policy;
+    Splitted_31 -> mmlu_abstract_algebra;
+    Splitted_32 -> mmlu_college_chemistry;
+    Splitted_33 -> mmlu_computer_security;
+    Splitted_34 -> mmlu_econometrics;
+    Splitted_35 -> mmlu_us_foreign_policy;
 
-    Splitted_41 -> The_Pile---ArXiv;
-    Splitted_42 -> The_Pile---BookCorpus2;
-    Splitted_43 -> The_Pile---Enron Emails;
-    Splitted_44 -> The_Pile---Github;
-    Splitted_45 -> The_Pile---PubMed Central;
-    Splitted_46 -> The_Pile---Wikipedia;
+    Splitted_41 -> the_pile_ArXiv;
+    Splitted_42 -> the_pile_BookCorpus2;
+    Splitted_43 -> the_pile_Enron Emails;
+    Splitted_44 -> the_pile_Github;
+    Splitted_45 -> the_pile_PubMed Central;
+    Splitted_46 -> the_pile_Wikipedia;
 
-    Splitted_51 -> TwitterAAE---white;
-    Splitted_52 -> TwitterAAE---aa;
+    Splitted_51 -> twitter_aae_white;
+    Splitted_52 -> twitter_aae_aa;
 
-    Splitted_61 -> ICE---gender---female;
-    Splitted_62 -> ICE---gender---male;
-    Splitted_63 -> ICE---subset---ea;
-    Splitted_64 -> ICE---subset---hk;
-    Splitted_65 -> ICE---subset---ind;
-    Splitted_66 -> ICE---subset---usa;
+    Splitted_61 -> ice_female;
+    Splitted_62 -> ice_male;
+    Splitted_63 -> ice_ea;
+    Splitted_64 -> ice_hk;
+    Splitted_65 -> ice_ind;
+    Splitted_66 -> ice_usa;
 
-    Splitted_71 -> BLiMP---binding;
-    Splitted_72 -> BLiMP---irregular_forms;
-    Splitted_73 -> BLiMP---island_effects;
-    Splitted_74 -> BLiMP---quantifiers;
+    Splitted_71 -> blimp_binding;
+    Splitted_72 -> blimp_irregular_forms;
+    Splitted_73 -> blimp_island_effects;
+    Splitted_74 -> blimp_quantifiers;
 }

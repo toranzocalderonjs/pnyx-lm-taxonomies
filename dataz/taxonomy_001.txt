@@ -45,37 +45,36 @@ digraph taxonomy_001 {
 
 digraph taxonomy_001_labeling {
 
-    Reasoning -> LegalSupport;
-    Reasoning -> Synthetic_reasoning_(natural_language);
+    Reasoning -> legal_support;
+    Reasoning -> synthetic_reasoning_nl;
     
-    Deduction -> Synthetic_reasoning_(abstract_symbols):pattern_match;
-    Deduction -> Synthetic_reasoning_(abstract_symbols):variable_sustitution;
+    Deduction -> synthetic_reasoning_pattern_match;
+    Deduction -> synthetic_reasoning_variable_substitution;
 
-    Induction -> Synthetic_reasoning_(abstract_symbols):induction;
+    Induction -> synthetic_reasoning_induction;
 
-    Producing_DR -> bAbI;
-    Producing_DR -> LSAT;
+    Producing_DR -> babi_qa_all;
+    Producing_DR -> lsat;
 
-    Producing_IR -> bAbI;
+    Producing_IR -> babi_qa_all;
 
-    Commonsense_Knowledge -> HellaSwag;
-    Commonsense_Knowledge -> OpenBookQA;
+    Commonsense_Knowledge -> hellaswag;
+    Commonsense_Knowledge -> openbookqa;
 
-    Contextual_Knowledge -> HellaSwag;
-    Contextual_Knowledge -> OpenBookQA;
+    Contextual_Knowledge -> hellaswag;
+    Contextual_Knowledge -> openbookqa;
 
-    Encyclopedic_Knowledge -> MMLU;
+    Encyclopedic_Knowledge -> mmlu;
 
-    Language -> WikiText-103;
-    Language -> The Pile;
-    Language -> TwitterAAE;
-    Language -> ICE;
-    Language -> WikiData;
+    Language -> the_pile;
+    Language -> twitter_aae;
+    Language -> ice;
+    Language -> wikidata;
 
-    Evaluating_Assertions -> BLiMP;
+    Evaluating_Assertions -> blimp;
 
-    Evaluating_Interrogations -> BLiMP;
+    Evaluating_Interrogations -> blimp;
 
-    Evaluating_Directions -> BLiMP;
+    Evaluating_Directions -> blimp;
 
 }
