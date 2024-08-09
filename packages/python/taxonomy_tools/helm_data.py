@@ -189,6 +189,7 @@ def read_helm_data(
                     except Exception:
                         pass
                 if metric_val is None:
+                    print(task)
                     raise ValueError("Requested metric not found.")
 
                 # track all values from the tasks associated to this dataset
