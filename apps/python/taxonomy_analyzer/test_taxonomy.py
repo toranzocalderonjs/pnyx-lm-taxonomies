@@ -55,6 +55,9 @@ def main():
     OUTPUT_PATH = args.output
     METRICS_USE = args.metrics.split(",")
 
+    if not os.path.exists(OUTPUT_PATH):
+        os.makedirs(OUTPUT_PATH)
+        
     # Get taxonomy name
     taxonomy_name = os.path.basename(TAXONOMY_PATH).split(".")[0]
     print('Processing taxonomy: "%s"' % taxonomy_name)
