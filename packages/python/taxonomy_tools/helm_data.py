@@ -93,7 +93,7 @@ def read_helm_data(
             task_name = task["name"]
             if is_windows:
                 # replace the ":" with "-" in the test name
-                task_name = task_name.replace(":", "-")
+                task_name = task_name.replace(":", "_")
             # Get all results matching this task
             matching_results = list()
             for t_dir in tasks_dirs:
@@ -189,6 +189,7 @@ def read_helm_data(
                     except Exception:
                         pass
                 if metric_val is None:
+                    print(task)
                     raise ValueError("Requested metric not found.")
 
                 # track all values from the tasks associated to this dataset
