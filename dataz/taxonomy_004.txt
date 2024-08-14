@@ -1,0 +1,68 @@
+digraph taxonomy_004 {
+    
+
+        Reasoning -> Monotonic;
+        Reasoning -> Defeasible;
+        Monotonic -> Deductive;
+        Defeasible -> Inductive;
+      //Defeasible -> Abduction;
+        Deductive -> Producing_DR;
+        Deductive -> Evaluating_DR;
+        Inductive -> Producing_IR;
+        Inductive -> Evaluating_IR;
+     //Producing_DR -> Logic_Connections;
+        Producing_DR -> Deductive_Connections;
+        Logic_Connections -> Inductive_Connections;
+        Logic_Connections -> Deductive_Connections;
+        Evaluating_DR -> Deductive_Connections;
+      //Producing_IR -> Logic_Connections;
+        Producing_IR -> Inductive_Connections;
+        Evaluating_IR -> Inductive_Connections;
+        //Reasons_Identification -> Premises;
+        //Reasons_Identification -> Conclusions;
+        //Reasons_Identification -> Deductive;
+        //Reasons_Identification -> Inductive;
+        //Reasons_Identification -> Abduction;
+        Language -> Syntax;
+        Language -> Pragmatics;
+        Language -> Semantics;
+        Pragmatics -> Assertives;
+        Semantics -> Logic_Connections;
+      //Language -> Interrogative;
+      //Language -> Directive;
+      //rank = same; Assertives; Reasons_Identification;
+        Assertives -> Producing_Assertions;
+        Assertives -> Evaluating_Assertions; 
+        Reasons_Identification -> Assertives
+        Producing_Assertions -> Theory_of_Mind;
+      //Producing_Assertions -> X;
+      //Producing_Assertions -> Standing_Ground;
+      //Evaluating_Assertions -> Theory_of_Mind;
+      //Evaluating_Assertions -> Assertion_Preparation_Conditions;
+        Knowledge;
+        
+    }
+
+    digraph taxonomy_004_labeling {
+
+        
+        Language -> twitter_aae_aa;
+        Language -> twitter_aae_white;
+        Knowledge -> wikifact_author;
+        Knowledge -> wikifact_currency;
+        Knowledge -> wikifact_discoverer_or_inventor;
+        Knowledge -> wikifact_instance_of;
+        Knowledge -> wikifact_medical_condition_treated;
+        Knowledge -> wikifact_part_of;
+        Knowledge -> wikifact_place_of_birth;
+        Knowledge -> wikifact_plaintiff;
+        Knowledge -> wikifact_position_held;
+        Knowledge -> wikifact_symptoms_and_signs;
+        Deductive -> synthetic_reasoning_nl_easy;
+        Deductive -> synthetic_reasoning_nl_hard;
+        Deductive -> entity_matching_abt_buy;
+        Deductive -> entity_matching_beer;
+        Deductive -> entity_matching_itunes;
+        //En construcción
+    }
+    
