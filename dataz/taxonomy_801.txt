@@ -62,15 +62,15 @@ digraph taxonomy_801 {
 
   root -> openbookqa_node;
 
-  root -> srnl_node;
-  srnl_node -> srnl_easy_node;
-  srnl_easy_node -> srnl_hard_node;
+  root -> synthetic_reasoning_nl_node;
+  synthetic_reasoning_nl_node -> synthetic_reasoning_nl_easy_node;
+  synthetic_reasoning_nl_easy_node -> synthetic_reasoning_nl_hard_node;
 
-  root -> sr_abstract_node;
+  root -> synthetic_reasoning_abstract_node;
   sr_node -> synthetic_reasoning_induction_node;
-  synthetic_reasoning_induction_node -> sr_abstract_node;
-  sr_abstract_node -> synthetic_reasoning_pattern_match_node;
-  sr_abstract_node -> synthetic_reasoning_variable_substitution_node;
+  synthetic_reasoning_induction_node -> synthetic_reasoning_abstract_node;
+  synthetic_reasoning_abstract_node -> synthetic_reasoning_pattern_match_node;
+  synthetic_reasoning_abstract_node -> synthetic_reasoning_variable_substitution_node;
 
   root -> the_pile_node;
   the_pile_node -> the_pile_bookcorpus2_node;
@@ -163,10 +163,10 @@ digraph taxonomy_801_labeling {
 //  natural_qa_open_node -> natural_qa_open;
   openbookqa_node -> openbookqa;
 //  quac_node -> quac;
-  srnl_node -> srnl;
-  srnl_easy_node -> srnl_easy;
-  srnl_hard_node -> srnl_hard;
-  sr_abstract_node -> sr_abstract;
+  synthetic_reasoning_nl_node -> synthetic_reasoning_nl;
+  synthetic_reasoning_nl_easy_node -> synthetic_reasoning_nl_easy;
+  synthetic_reasoning_nl_hard_node -> synthetic_reasoning_nl_hard;
+  synthetic_reasoning_abstract_node -> synthetic_reasoning_abstract;
   sr_pattern_match_node -> sr_pattern_match;
   sr_variable_substitution_node -> sr_variable_substitution;
   sr_induction_node -> sr_induction;
