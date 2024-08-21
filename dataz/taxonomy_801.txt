@@ -67,7 +67,7 @@ digraph taxonomy_801 {
   synthetic_reasoning_nl_easy_node -> synthetic_reasoning_nl_hard_node;
 
   root -> synthetic_reasoning_abstract_node;
-  sr_node -> synthetic_reasoning_induction_node;
+  synthetic_reasoning_node -> synthetic_reasoning_induction_node;
   synthetic_reasoning_induction_node -> synthetic_reasoning_abstract_node;
   synthetic_reasoning_abstract_node -> synthetic_reasoning_pattern_match_node;
   synthetic_reasoning_abstract_node -> synthetic_reasoning_variable_substitution_node;
@@ -167,9 +167,9 @@ digraph taxonomy_801_labeling {
   synthetic_reasoning_nl_easy_node -> synthetic_reasoning_nl_easy;
   synthetic_reasoning_nl_hard_node -> synthetic_reasoning_nl_hard;
   synthetic_reasoning_abstract_node -> synthetic_reasoning_abstract;
-  sr_pattern_match_node -> sr_pattern_match;
-  sr_variable_substitution_node -> sr_variable_substitution;
-  sr_induction_node -> sr_induction;
+  synthetic_reasoning_pattern_match_node -> synthetic_reasoning_pattern_match;
+  synthetic_reasoning_variable_substitution_node -> synthetic_reasoning_variable_substitution;
+  synthetic_reasoning_induction_node -> synthetic_reasoning_induction;
   the_pile_node -> the_pile;
   the_pile_arxiv_node -> the_pile_arxiv;
   the_pile_bookcorpus2_node -> the_pile_bookcorpus2;
