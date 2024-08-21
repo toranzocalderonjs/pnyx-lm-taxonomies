@@ -46,23 +46,51 @@ digraph taxonomy_004 {
     digraph taxonomy_004_labeling {
 
         
-        Language -> twitter_aae_aa;
-        Language -> twitter_aae_white;
-        Knowledge -> wikifact_author;
-        Knowledge -> wikifact_currency;
-        Knowledge -> wikifact_discoverer_or_inventor;
-        Knowledge -> wikifact_instance_of;
-        Knowledge -> wikifact_medical_condition_treated;
-        Knowledge -> wikifact_part_of;
-        Knowledge -> wikifact_place_of_birth;
-        Knowledge -> wikifact_plaintiff;
-        Knowledge -> wikifact_position_held;
-        Knowledge -> wikifact_symptoms_and_signs;
-        Deductive -> synthetic_reasoning_nl_easy;
-        Deductive -> synthetic_reasoning_nl_hard;
+        Monotonic  -> babi_qa_Task_1;
+        Monotonic  -> babi_qa_Task_2;
+        Monotonic  -> babi_qa_Task_3;
+        Monotonic  -> babi_qa_Task_4;
+        Monotonic  -> babi_qa_Task_5;
+        Monotonic  -> babi_qa_Task_6;
+        Monotonic  -> babi_qa_Task_7;
+        Monotonic  -> babi_qa_Task_8;
+        Monotonic  -> babi_qa_Task_9;
+        Monotonic  -> babi_qa_Task_10;
+        Monotonic  -> babi_qa_Task_11;
+        Monotonic  -> babi_qa_Task_12;
+        Monotonic  -> babi_qa_Task_13;
+        Monotonic  -> babi_qa_Task_15;
+        Monotonic  -> babi_qa_Task_17;
+        Monotonic  -> babi_qa_Task_18;
+        Monotonic  -> babi_qa_Task_19;
+        Defeasible -> babi_qa_Task_20;
+        Defeasible -> babi_qa_Task_14;
+        Defeasible -> babi_qa_Task_16;
+        Syntax -> blimp_binding;
+        Syntax -> blimp_irregular_forms;
+        Syntax -> blimp_island_effects;
+        Logic_Connections -> blimp_quantifiers;
+        Knowledge -> hellaswag;
+        Knowledge -> openbookqa;
+        Knowledge -> natural_qa_open;
+        //Deductive -> dyck_language;
         Deductive -> entity_matching_abt_buy;
         Deductive -> entity_matching_beer;
         Deductive -> entity_matching_itunes;
-        //En construcción
+        Language -> ice_female;
+        Language -> ice_male;
+        Language -> ice_ea;
+        Language -> ice_hk;
+        Language -> ice_ind;
+        Language -> ice_usa;
+        Deductive -> lsat;
+        Deductive -> synthetic_reasoning_nl;
+        Deductive -> synthetic_reasoning_nl_easy;
+        Deductive -> synthetic_reasoning_abstract;
+        Abduction -> synthetic_reasoning_pattern_match;
+        Deductive -> synthetic_reasoning_variable_substitution;
+        Pragmatics -> the_pile;
+        Pragmatics -> truthful_qa;
+
     }
     
