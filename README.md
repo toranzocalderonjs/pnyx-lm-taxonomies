@@ -12,7 +12,7 @@ sudo apt install pip python3-venv -y
 
 Create a virtual environment in this project:
 ```bash
-python3 -m .venv venv-base
+python3 -m venv .venv
 ```
 
 Activate the new enviroment
