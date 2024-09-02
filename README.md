@@ -1,6 +1,5 @@
 # pnyx-lm-taxonomies
 
-
 ### Local Python Dev
 
 To run the python scripts locally (like the taxonomy analysis app) the following steps are recommended:
