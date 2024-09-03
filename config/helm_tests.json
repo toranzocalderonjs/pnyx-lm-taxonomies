@@ -1,4 +1,36 @@
 {
+    "babi_qa" : [
+        {
+            "name": "babi_qa:task=all",
+            "metric": "quasi_exact_match",
+            "suffix" : "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "babi_qa:task=3",
+            "metric": "quasi_exact_match",
+            "suffix" : "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "babi_qa:task=15",
+            "metric": "quasi_exact_match",
+            "suffix" : "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "babi_qa_19": [
+        {
+            "name": "babi_qa:task=19",
+            "metric": "quasi_exact_match",
+            "suffix" : "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
     "babi_qa_all": [
         {
             "name": "babi_qa:task=all",
@@ -215,6 +247,15 @@
             "split": "test"
         }
     ],
+    "bbq" : [
+        {
+            "suffix": "---",
+            "name": "bbq:subject=all,method=multiple_choice_joint",
+            "metric": "quasi_exact_match",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
     "blimp": [
         {
             "name": "blimp:phenomenon=binding,method=multiple_choice_separate_original",
@@ -282,11 +323,108 @@
             "suffix": "---"
         }
     ],
+    "bold": [
+        {
+            "name": "bold:subject=all",
+            "suffix" : "---",
+            "metric": "toxic_frac",
+            "split": "test",
+            "field": "mean"
+        }
+    ],
     "boolq": [
         {
             "name": "boolq",
             "suffix": "data_augmentation=canonical",
-            "metric": "exact_match",
+            "metric": "quasi_exact_match",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "boolq:only_contrast=True",
+            "suffix": "data_augmentation=contrast_sets,groups=robustness_contrast_sets",
+            "metric": "quasi_exact_match",
+            "field": "mean",
+            "split": "valid"
+        }
+    ],
+    "civil_comments": [
+        {
+            "name": "civil_comments:demographic=all",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        },
+        {
+            "name": "civil_comments:demographic=black",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        },
+        {
+            "name": "civil_comments:demographic=christian",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        },
+        {
+            "name": "civil_comments:demographic=female",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        },
+        {
+            "name": "civil_comments:demographic=LGBTQ",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        },
+        {
+            "name": "civil_comments:demographic=male",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        },
+        {
+            "name": "civil_comments:demographic=muslim",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        },
+        {
+            "name": "civil_comments:demographic=other_religions",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        },
+        {
+            "name": "civil_comments:demographic=white",
+            "suffix": "data_augmentation=canonical",
+            "metric": "quasi_exact_match",
+            "field" : "mean",
+            "split": "test"
+        }
+    ],
+    "copyright" : [
+        {
+            "name": "copyright:datatag=n_books_1000-extractions_per_book_1-prefix_length_125",
+            "suffix" : "---",
+            "metric": "edit_distance",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "copyright:datatag=popular_books-prefix_length_125.json",
+            "suffix" : "---",
+            "metric": "edit_distance",
             "field": "mean",
             "split": "test"
         }
@@ -295,9 +433,25 @@
         {
             "name": "dyck_language_np=3",
 	        "suffix": "---",
-            "metric": "exact_match",
+            "metric": "exact_match_indicator",
             "field": "mean",
             "split": "test"
+        }
+    ],
+    "entity_data_imputation" : [
+        {
+            "name": "entity_data_imputation:dataset=Buy",
+            "suffix": "---",
+            "field" : "mean",
+            "split" : "valid",
+            "metric" : "quasi_exact_match"
+        },
+        {
+            "name": "entity_data_imputation:dataset=Restaurant",
+            "suffix": "---",
+            "field" : "mean",
+            "split" : "valid",
+            "metric" : "quasi_exact_match"
         }
     ],
     "entity_matching": [
@@ -318,9 +472,9 @@
         {
             "name": "entity_matching:dataset=Dirty_iTunes_Amazon",
             "metric": "exact_match",
-	    "suffix": "---",
+            "suffix": "---",
             "field": "mean",
-            "split": "test"
+            "split": "valid"
         }
     ],
     "entity_matching_abt_buy": [
@@ -336,7 +490,7 @@
         {
             "name": "entity_matching:dataset=Beer",
             "metric": "exact_match",
-	    "suffix": "---",
+            "suffix": "---",
             "field": "mean",
             "split": "test"
         }
@@ -345,8 +499,17 @@
         {
             "name": "entity_matching:dataset=Dirty_iTunes_Amazon",
             "metric": "exact_match",
-	    "suffix": "---",
+	        "suffix": "---",
             "field": "mean",
+            "split": "test"
+        }
+    ],
+    "gsm" : [
+        {
+            "name" : "gsm",
+            "suffix" : "---",
+            "metric" : "exact_match_indicator",
+            "field" : "mean",
             "split": "test"
         }
     ],
@@ -457,9 +620,25 @@
             "split": "test"
         }
     ],
+    "imdb": [
+        {
+            "name" : "imdb",
+            "suffix": "data_augmentation=canonical",
+            "metric" : "quasi_exact_match",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name" : "imdb:only_contrast=True",
+            "suffix": "data_augmentation=contrast_sets,groups=robustness_contrast_sets",
+            "metric" : "quasi_exact_match",
+            "field": "mean",
+            "split": "valid"
+        }
+    ],
     "legal_support": [
         {
-            "name": "legal_support,method=multiple_choice_joint", 
+            "name": "legal_support,method=multiple_choice_joint",
             "suffix" : "---",
             "metric": "exact_match", 
             "field": "mean", 
@@ -470,6 +649,106 @@
         {
             "name": "lsat_qa:task=all,method=multiple_choice_joint",
             "metric": "quasi_exact_match",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math" : [
+        {
+            "name": "math:subject=algebra,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=algebra,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=counting_and_probability,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=counting_and_probability,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=geometry,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=geometry,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=intermediate_algebra,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=intermediate_algebra,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=number_theory,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=number_theory,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=prealgebra,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=prealgebra,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=precalculus,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "math:subject=precalculus,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
             "suffix": "---",
             "field": "mean",
             "split": "test"
@@ -557,22 +836,47 @@
             "split": "valid"
         }
     ],
+    "msmarco" : [
+        {
+            "name": "msmarco:track=regular,valid_topk=30",
+            "suffix": "data_augmentation=canonical",
+            "metric": "RR@10",
+            "field": "mean",
+            "split": "valid"
+        },
+        {
+            "name": "msmarco:track=trec,valid_topk=30",
+            "suffix": "data_augmentation=canonical",
+            "metric": "NDCG@10",
+            "field": "mean",
+            "split": "valid"
+        }
+    ],
     "msmarco_regular": [
         {
             "name": "msmarco:track=regular,valid_topk=30",
             "suffix": "data_augmentation=canonical",
-            "metric": "exact_match",
+            "metric": "RR@10",
             "field": "mean",
-            "split": "test"
+            "split": "valid"
         }
     ],
     "msmarco_trec": [
         {
             "name": "msmarco:track=trec,valid_topk=30",
             "suffix": "data_augmentation=canonical",
-            "metric": "exact_match",
+            "metric": "NDCG@10",
             "field": "mean",
-            "split": "test"
+            "split": "valid"
+        }
+    ],
+    "narrative_qa" : [
+        {
+            "name": "narrative_qa",
+            "suffix": "data_augmentation=canonical",
+            "metric": "f1_score",
+            "field": "mean",
+            "split": "valid"
         }
     ],
     "natural_qa_closed": [
@@ -590,7 +894,7 @@
             "metric": "quasi_exact_match",
             "field": "mean",
             "suffix": "data_augmentation=canonical",
-            "split": "test"
+            "split": "valid"
         }
     ],
     "openbookqa": [
@@ -605,10 +909,130 @@
     "quac": [
         {
             "name": "quac",
-            "metric": "exact_match",
+            "metric": "f1_score",
             "field": "mean",
             "suffix": "data_augmentation=canonical",
-            "split": "test"
+            "split": "valid"
+        }
+    ],
+    "raft" : [
+        {
+            "name": "raft:subset=ade_corpus_v2",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=banking_77",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=neurips_impact_statement_risks",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=one_stop_english",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=overruling",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=semiconductor_org_types",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=systematic_review_inclusion",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=tai_safety_research",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=terms_of_service",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=tweet_eval_hate",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        },
+        {
+            "name": "raft:subset=twitter_complaints",
+            "suffix": "data_augmentation=canonical",
+            "field": "mean",
+            "split": "test",
+            "metric": "quasi_exact_match"
+        }
+    ],
+    "real_toxicity_prompts" : [
+        {
+            "name" : "real_toxicity_prompts",
+            "suffix": "---",
+            "field" : "mean",
+            "split" : "test",
+            "metric" : "toxic_frac"
+        }
+    ],
+    "summarization_cnndm" : [
+        {
+            "name" : "summarization_cnndm:temperature=0.3,device=cpu",
+            "suffix" : "---",
+            "field" : "mean",
+            "split": "test",
+            "metric": "rouge_2"
+        },
+        {
+            "name" : "summarization_cnndm:temperature=0.3,device=cpu",
+            "suffix" : "---",
+            "field" : "mean",
+            "split": "test",
+            "metric": "rouge_2"
+        }
+    ],
+    "summarization_xsum" : [
+        {
+            "name" : "summarization_xsum:temperature=0.3,device=cpu",
+            "suffix" : "---",
+            "field" : "mean",
+            "split": "test",
+            "metric": "rouge_2"
+        },
+        {
+            "name" : "summarization_xsum:temperature=0.3,device=cpu",
+            "suffix" : "---",
+            "field" : "mean",
+            "split": "test",
+            "metric": "rouge_2"
         }
     ],
     "synthetic_reasoning_nl": [
@@ -820,9 +1244,76 @@
             "split": "test"
         }
     ],
-    "wikidata": [
+    "wikifact" : [
         {
-            "name": "IGNORE-ME"
+            "name": "wikifact:k=5,subject=author",
+            "metric": "exact_match",
+            "field": "mean",
+            "suffix": "---",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=currency",
+            "metric": "exact_match",
+            "field": "mean",
+            "suffix": "---",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=discoverer_or_inventor",
+            "metric": "exact_match",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=instance_of",
+            "metric": "exact_match",
+            "field": "mean",
+            "suffix": "---",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=medical_condition_treated",
+            "metric": "exact_match",
+            "field": "mean",
+            "suffix": "---",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=part_of",
+            "metric": "exact_match",
+            "field": "mean",
+            "suffix": "---",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=place_of_birth",
+            "metric": "exact_match",
+            "field": "mean",
+            "suffix": "---",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=plaintiff",
+            "metric": "exact_match",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=position_held",
+            "metric": "exact_match",
+            "field": "mean",
+            "suffix": "---",
+            "split": "test"
+        },
+        {
+            "name": "wikifact:k=5,subject=symptoms_and_signs",
+            "metric": "exact_match",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
         }
     ],
     "wikifact_author": [
@@ -913,11 +1404,6 @@
             "suffix": "---",
             "field": "mean",
             "split": "test"
-        }
-    ],
-    "wikitext-103": [
-        {
-            "name": "IGNORE-ME"
         }
     ]
 }
