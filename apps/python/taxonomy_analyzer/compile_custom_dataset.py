@@ -6,6 +6,9 @@ import warnings
 import tqdm
 from copy import deepcopy
 import argparse
+import platform
+
+is_windows = platform.system() == "Windows"
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 root_dir = os.path.normpath(os.path.join(current_dir, os.pardir, os.pardir, os.pardir))
@@ -267,6 +270,8 @@ def main():
             output_folder_name = (
                 compilation_name + ":compilation=" + target + ",model=" + model_name
             )
+            if is_windows:
+                compilation_name = compilation_name.replace(":", "_")
             out_path_this = os.path.join(OUTPUT_PATH, output_folder_name)
             os.makedirs(out_path_this, exist_ok=True)
             with open(os.path.join(out_path_this, "stats.json"), "w") as fp:
