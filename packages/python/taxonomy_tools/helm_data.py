@@ -97,7 +97,7 @@ def read_helm_data(
             # Get all results matching this task
             matching_results = list()
             for t_dir in tasks_dirs:
-                if task_name + ",model" in t_dir or task_name + ":model" in t_dir:
+                if task_name + ",model" in t_dir or task_name + ":model" in t_dir or task_name + "_model" in t_dir:
                     # Check for suffix
                     suffixs = ""
                     for s in t_dir.split("model=")[-1].split(",")[1:]:
