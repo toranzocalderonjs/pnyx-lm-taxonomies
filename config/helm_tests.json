@@ -338,7 +338,7 @@
             "suffix": "data_augmentation=canonical",
             "metric": "quasi_exact_match",
             "field": "mean",
-            "split": "test"
+            "split": "valid"
         },
         {
             "name": "boolq:only_contrast=True",
@@ -626,7 +626,7 @@
             "suffix": "data_augmentation=canonical",
             "metric" : "quasi_exact_match",
             "field": "mean",
-            "split": "test"
+            "split": "valid"
         },
         {
             "name" : "imdb:only_contrast=True",
