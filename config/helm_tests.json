@@ -432,7 +432,7 @@
     "dyck_language": [
         {
             "name": "dyck_language_np=3",
-	        "suffix": "---",
+	    "suffix": "---",
             "metric": "exact_match_indicator",
             "field": "mean",
             "split": "test"
@@ -446,6 +446,24 @@
             "split" : "valid",
             "metric" : "quasi_exact_match"
         },
+        {
+            "name": "entity_data_imputation:dataset=Restaurant",
+            "suffix": "---",
+            "field" : "mean",
+            "split" : "valid",
+            "metric" : "quasi_exact_match"
+        }
+    ],
+    "entity_data_imputation_buy" : [
+        {
+            "name": "entity_data_imputation:dataset=Buy",
+            "suffix": "---",
+            "field" : "mean",
+            "split" : "valid",
+            "metric" : "quasi_exact_match"
+        }
+    ],
+    "entity_data_imputation_restaurant" : [
         {
             "name": "entity_data_imputation:dataset=Restaurant",
             "suffix": "---",
@@ -705,6 +723,69 @@
             "split": "test"
         }
     ],
+    "math_algebra" : [
+	{
+            "name": "math:subject=algebra,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_counting" : [
+	{
+            "name": "math:subject=counting_and_probability,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_geometry" : [
+        {
+            "name": "math:subject=geometry,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_intermediate_algebra" : [
+	{
+            "name": "math:subject=intermediate_algebra,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_number_theory" : [
+	{
+            "name": "math:subject=number_theory,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_prealgebra" : [
+	{
+            "name": "math:subject=prealgebra,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_precalculus" : [
+	{
+            "name": "math:subject=precalculus,level=1,use_official_examples=True,use_chain_of_thought=False",
+            "metric": "math_equiv",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
     "math_chain_of_thought" : [
         {
             "name": "math:subject=algebra,level=1,use_official_examples=False,use_chain_of_thought=True",
@@ -749,6 +830,69 @@
             "split": "test"
         },
         {
+            "name": "math:subject=precalculus,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_cot_algebra" : [
+        {
+            "name": "math:subject=algebra,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_cot_counting" : [
+	{
+            "name": "math:subject=counting_and_probability,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_cot_geometry" : [
+	{
+            "name": "math:subject=geometry,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_cot_intermediate_algebra" : [
+	{
+            "name": "math:subject=intermediate_algebra,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_cot_number_theory": [
+	{
+            "name": "math:subject=number_theory,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_cot_prealgebra" : [
+	{
+            "name": "math:subject=prealgebra,level=1,use_official_examples=False,use_chain_of_thought=True",
+            "metric": "math_equiv_chain_of_thought",
+            "suffix": "---",
+            "field": "mean",
+            "split": "test"
+        }
+    ],
+    "math_cot_precalculus": [
+	{
             "name": "math:subject=precalculus,level=1,use_official_examples=False,use_chain_of_thought=True",
             "metric": "math_equiv_chain_of_thought",
             "suffix": "---",
