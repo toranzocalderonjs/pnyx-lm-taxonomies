@@ -1,0 +1,36 @@
+Digraph taxonomy_math_full {
+    root -> math_algebra_node;
+    root -> math_counting_node;
+    root -> math_geometry_node;
+    root -> math_intermediate_algebra_node;
+    root -> math_number_theory_node;
+    root -> math_prealgebra_node;
+    root -> math_precalculus_node;
+    root -> math_cot_algebra_node;
+    root -> math_cot_counting_node;
+    root -> math_cot_geometry_node;
+    root -> math_cot_intermediate_algebra_node;
+    root -> math_cot_number_theory_node;
+    root -> math_cot_prealgebra_node;
+    root -> math_cot_precalculus_node;
+    root -> gsm_node;
+}
+
+Digraph taxonomy_math_full_labeling {
+    math_algebra_node -> math_algebra;
+    math_counting_node -> math_counting;
+    math_geometry_node -> math_geometry;
+    math_intermediate_algebra_node -> math_intermediate_algebra;
+    math_number_theory_node -> math_number_theory;
+    math_prealgebra_node -> math_prealgebra;
+    math_precalculus_node -> math_precalculus;
+    math_cot_algebra_node -> math_cot_algebra;
+    math_cot_counting_node -> math_cot_counting;
+    math_cot_geometry_node -> math_cot_geometry;
+    math_cot_intermediate_algebra_node -> math_cot_intermediate_algebra;
+    math_cot_number_theory_node -> math_cot_number_theory;
+    math_cot_prealgebra_node -> math_cot_prealgebra;
+    math_cot_precalculus_node -> math_cot_precalculus;
+    gsm_node -> gsm;
+}
+

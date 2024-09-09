@@ -1,0 +1,16 @@
+Digraph taxonomy_entity {
+    root -> entity_data_imputation_buy_node;
+    root -> entity_data_imputation_restaurant_node;
+    root -> entity_matching_abt_buy_node;
+    root -> entity_matching_beer_node;
+    root -> entity_matching_itunes_node;
+}
+
+Digraph taxonomy_entity_labeling {
+    entity_data_imputation_buy_node -> entity_data_imputation_buy;
+    entity_data_imputation_restaurant_node -> entity_data_imputation_restaurant;
+    entity_matching_abt_buy_node -> entity_matching_abt_buy;
+    entity_matching_beer_node -> entity_matching_beer;
+    entity_matching_itunes_node -> entity_matching_itunes;
+}
+

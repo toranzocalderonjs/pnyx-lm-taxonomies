@@ -1,0 +1,27 @@
+Digraph taxonomy_reasoning {
+    root -> babi_qa_node;
+    root -> dyck_language_node;
+    root -> entity_data_imputation_node;
+    root -> entity_matching_node;
+    root -> gsm_node;
+    root -> legal_support_node;
+    root -> lsat_node;
+    root -> math_node;
+    root -> math_cot_node;
+    root -> synthetic_reasoning_nl_node;
+    root -> synthetic_reasoning_abstract_node;
+}
+
+Digraph taxonomy_reasoning_labeling {
+    babi_qa_node -> babi_qa;
+    dyck_language_node -> dyck_language;
+    entity_data_imputation_node -> entity_data_imputation;
+    entity_matching_node -> entity_matching;
+    gsm_node -> gsm;
+    legal_support_node -> legal_support;
+    lsat_node -> lsat;
+    math_node -> math;
+    math_cot_node -> math_chain_of_thought;
+    synthetic_reasoning_nl_node -> synthetic_reasoning_nl;
+    synthetic_reasoning_abstract_node -> synthetic_reasoning_abstract;
+}
