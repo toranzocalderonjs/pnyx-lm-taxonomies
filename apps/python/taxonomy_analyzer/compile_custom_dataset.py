@@ -69,6 +69,9 @@ def main():
     IGNORE_WRONG_SPLITS = args.ignore_wrong_splits
     verbosity = args.verbosity
 
+    if not os.path.exists(OUTPUT_PATH):
+        os.makedirs(OUTPUT_PATH)
+        
     # Read dataset compilation definition file, error if dict entries are duplicate
     def dict_raise_on_duplicates(ordered_pairs):
         """Reject duplicate keys."""

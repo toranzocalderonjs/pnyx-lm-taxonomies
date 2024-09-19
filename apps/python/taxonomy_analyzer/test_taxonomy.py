@@ -57,7 +57,7 @@ def main():
 
     if not os.path.exists(OUTPUT_PATH):
         os.makedirs(OUTPUT_PATH)
-        
+
     # Get taxonomy name
     taxonomy_name = os.path.basename(TAXONOMY_PATH).split(".")[0]
     print('Processing taxonomy: "%s"' % taxonomy_name)
@@ -120,7 +120,8 @@ def main():
         os.path.join(
             OUTPUT_PATH,
             "%s" % taxonomy_name + "_dataset_metrics.csv",
-        )
+        ),
+        header=True
     )
 
     # Create taxonomy nodes metrics dataframe
@@ -136,97 +137,98 @@ def main():
         os.path.join(
             OUTPUT_PATH,
             "%s" % taxonomy_name + "_nodes_metrics.csv",
-        )
+        ),
+        header=True
     )
 
-    # Get nodes correlations
+    # Get nodes metrics
     print(
         "--------------------------------------------------------------------------------"
     )
-    corr_dict_list = list()
+    metric_dict_list = list()
     names_list = list()
-    for metric_use in METRICS_USE:
-        print('Analyzing metric: "%s"' % metric_use)
-        correlation_matrix, correlation_matrix_filtered, corr_dict = (
-            txm_utils.get_taxonomy_nodes_correlation(
+    for metric in METRICS_USE:
+        print('Analyzing metric: "%s"' % metric)
+        metric_matrix, metric_matrix_filtered, metric_dict = (
+            txm_utils.get_taxonomy_nodes_metric(
                 nodes_data_df,
                 taxonomy_graph,
-                method=metric_use,
+                method=metric,
                 verbose=True,
                 print_prefix="\t",
             )
         )
         # Save
-        pd.DataFrame(correlation_matrix).to_csv(
+        pd.DataFrame(metric_matrix).to_csv(
             os.path.join(
                 OUTPUT_PATH,
-                "%s" % taxonomy_name + "_full_metric_%s.csv" % metric_use,
+                "%s" % taxonomy_name + "_full_metric_%s.csv" % metric,
             ),
             index=False,
-            header=False,
+            header=True,
         )
-        pd.DataFrame(correlation_matrix_filtered).to_csv(
+        pd.DataFrame(metric_matrix_filtered).to_csv(
             os.path.join(
                 OUTPUT_PATH,
-                "%s" % taxonomy_name + "_filtered_metric_%s.csv" % metric_use,
+                "%s" % taxonomy_name + "_filtered_metric_%s.csv" % metric,
             ),
             index=False,
-            header=False,
+            header=True,
         )
 
-        # Get the unbalanced correlation, using all possible models in each edge
-        correlation_matrix_imbalanced, corr_dict_imbalanced = (
-            txm_utils.get_taxonomy_per_edge_correlation(
+        # Get the unbalanced metrics, using all possible models in each edge
+        metric_matrix_imbalanced, metric_dict_imbalanced = (
+            txm_utils.get_taxonomy_per_edge_metric(
                 taxonomy_graph,
                 helm_samples_dict,
-                method=metric_use,
+                method=metric,
                 verbose=True,
                 print_prefix="\t",
             )
         )
         # Save
-        pd.DataFrame(correlation_matrix_imbalanced).to_csv(
+        pd.DataFrame(metric_matrix_imbalanced).to_csv(
             os.path.join(
                 OUTPUT_PATH,
-                "%s" % taxonomy_name + "_imbalanced_metric_%s.csv" % metric_use,
+                "%s" % taxonomy_name + "_imbalanced_metric_%s.csv" % metric,
             ),
             index=False,
-            header=False,
+            header=True,
         )
 
         # Track names and metrics for compilation
-        corr_dict_list.append(corr_dict)
-        corr_dict_list.append(corr_dict_imbalanced)
-        names_list.append(metric_use)
-        names_list.append("imabalanced_" + metric_use)
+        metric_dict_list.append(metric_dict)
+        metric_dict_list.append(metric_dict_imbalanced)
+        names_list.append(metric)
+        names_list.append("imabalanced_" + metric)
 
-        # Plot compacto de todos los nodos contra todos
-        if metric_use == "mutual_information":
-            method_use = txm_utils.custom_mi_reg
-        else:
-            method_use = metric_use
-        correlation_matrix = nodes_data_df.loc[:, (nodes_data_df != 0).any()].corr(
-            method=method_use
-        )
+        # Remove columns that hold no data to make plot more compact
+        columns_keep = list()
+        for idx, column in enumerate(nodes_data_df.columns):
+            if nodes_data_df[column].abs().sum() != 0:
+                columns_keep.append(column)
+        metric_matrix = metric_matrix[columns_keep]
+        metric_matrix = metric_matrix.loc[columns_keep]
+
         # Create a heatmap for visualization
-        im = plt.matshow(correlation_matrix, cmap="coolwarm")
+        im = plt.matshow(metric_matrix, cmap="coolwarm")
         im.set_clim([-1.0, 1.0])
         # Add colorbar
         plt.colorbar()
         # Set column labels
         plt.xticks(
-            range(len(correlation_matrix.columns)),
-            correlation_matrix.columns,
+            range(len(metric_matrix.columns)),
+            metric_matrix.columns,
             rotation=90,
         )
-        plt.yticks(range(len(correlation_matrix.columns)), correlation_matrix.columns)
+        plt.yticks(range(len(metric_matrix.columns)), metric_matrix.columns)
         # Set title
-        plt.title("%s" % TAXONOMY_PATH.split("/")[-1])
+        plt.title(f"{TAXONOMY_PATH.split('/')[-1]} - {metric}")
         plt.draw()
         plt.savefig(
             os.path.join(
                 OUTPUT_PATH,
-                "%s" % taxonomy_name + "_taxonomy_metric_%s_matrix.png" % metric_use,
+                "%s" % taxonomy_name + "_taxonomy_metric_%s_matrix.png" % metric,
             ),
             bbox_inches="tight",
         )
@@ -247,15 +249,15 @@ def main():
             )
         return dict_out
 
-    corr_dict_comp = dict()
-    for key in corr_dict_list[0].keys():
-        corr_dict_comp[key] = add_metric(
-            [other_dict[key] for other_dict in corr_dict_list], names_list
+    metric_dict_comp = dict()
+    for key in metric_dict_list[0].keys():
+        metric_dict_comp[key] = add_metric(
+            [other_dict[key] for other_dict in metric_dict_list], names_list
         )
     with open(
         os.path.join(OUTPUT_PATH, "%s" % taxonomy_name + "_metrics_dict.json"), "w"
     ) as fp:
-        json.dump(corr_dict_comp, fp, indent=4)
+        json.dump(metric_dict_comp, fp, indent=4)
     print("\tMetrics results saved to disk.")
 
     ############################################################################
