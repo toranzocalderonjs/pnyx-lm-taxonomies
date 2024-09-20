@@ -211,7 +211,8 @@ def main():
         metric_matrix = metric_matrix.loc[columns_keep]
 
         # Create a heatmap for visualization
-        im = plt.matshow(metric_matrix, cmap="coolwarm")
+        plt.figure(figsize=(len(metric_matrix.columns),len(metric_matrix.columns)))
+        im = plt.matshow(metric_matrix, cmap="coolwarm", fignum=1)
         im.set_clim([-1.0, 1.0])
         # Add colorbar
         plt.colorbar()
@@ -224,6 +225,11 @@ def main():
         plt.yticks(range(len(metric_matrix.columns)), metric_matrix.columns)
         # Set title
         plt.title(f"{TAXONOMY_PATH.split('/')[-1]} - {metric}")
+
+        for i in range(len(metric_matrix.columns)):
+            for j in range(len(metric_matrix.columns)):
+                plt.text(i, j, "{:.2f}".format(metric_matrix.iloc[j].values[i]) , ha="center", va="center", color="black")
+
         plt.draw()
         plt.savefig(
             os.path.join(
