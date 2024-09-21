@@ -228,7 +228,7 @@ def main():
 
         for i in range(len(metric_matrix.columns)):
             for j in range(len(metric_matrix.columns)):
-                plt.text(i, j, "{:.2f}".format(metric_matrix.iloc[j].values[i]) , ha="center", va="center", color="black")
+                plt.text(i, j, str(metric_matrix.iloc[j].values[i])[:4] , ha="center", va="center", color="black")
 
         plt.draw()
         plt.savefig(
